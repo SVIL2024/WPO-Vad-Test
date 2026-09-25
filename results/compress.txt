@@ -1,0 +1,28 @@
+C:\ProgramData\anaconda3\envs\pytorch\lib\site-packages\torch\jit\_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+[J3] 420 train frames, qualities=[95, 75, 50, 30]
+[J3] clean encoded (420, 196, 768) in 112s
+
+[J3] clean shape            0.5198    0.2337    0.1300    0.0816    0.0349
+[J3] JPEG q=95  delta     -0.0260   -0.0020   +0.0071   +0.0127   +0.0083
+[J3] JPEG q=75  delta     -0.0538   -0.0038   +0.0124   +0.0264   +0.0188
+[J3] JPEG q=50  delta     -0.0686   -0.0048   +0.0166   +0.0327   +0.0241
+[J3] JPEG q=30  delta     -0.0804   -0.0061   +0.0164   +0.0389   +0.0312
+
+[J3] REAL P1 delta         +0.1269   -0.0253   -0.0399   -0.0404   -0.0213
+[J3] jitter(2/255)         -0.1823   -0.0706   +0.0164   +0.1263   +0.1102
+
+================================================================================
+J3: can realistic compression reproduce the P1 signature?
+================================================================================
+  JPEG q          cos   |d|/|real|    verdict
+  95           -0.953        0.217   small vs real effect
+  75           -0.948        0.449   moderate
+  50           -0.950        0.571   moderate
+  30           -0.941        0.673   moderate
+
+  proxy limit: JPEG is intra-frame; H.264 artefacts are
+  motion-compensated and temporally correlated -- treat as a bound.
+
+  total 9.4 min
+[J3] cached -> results_ped2/_compress_cache.npz

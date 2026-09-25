@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+# caches and derived features -- often large
+*.npz
+ped2_feat*/
+feat_*/
+_ckpt/
+# local output
+results_local/
+.DS_Store

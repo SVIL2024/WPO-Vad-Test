@@ -1,0 +1,46 @@
+==========================================================================
+R6 -- every claim about the reference implementation, with its line
+==========================================================================
+  source tree: D:\program\VadCLIP-main\src
+
+  [ok ] xd_test.py:85
+        return ROC1, AP2 ,0#, averageMAP
+        -> XD returns AUC from column 1 but AP from column 2
+  [ok ] ucf_test.py:108
+        return ROC1, AP1
+        -> UCF returns AUC and AP from column 1
+  [ok ] ucf_train.py:143
+        AUC, AP = test(model, testloader, args.visual_length, prompt_text, gt, gtsegments, gtlabels, device)
+        -> UCF unpacks the tuple positionally
+  [ok ] ucf_train.py:144
+        AP = AUC
+        -> UCF then overwrites AP with AUC outright
+  [ok ] xd_train.py:99
+        AUC, AP, mAP = test(model, test_loader, args.visual_length, prompt_text, gt, gtsegments, gtlabels, device)
+        -> XD unpacks the same tuple positionally
+  [ok ] utils/dataset.py:27
+        clip_feature, clip_length = tools.process_feat(clip_feature, self.clip_dim)
+        -> training path resamples the clip
+  [ok ] utils/dataset.py:29
+        clip_feature, clip_length = tools.process_split(clip_feature, self.clip_dim)
+        -> test path takes native-rate windows
+  [ok ] utils/tools.py:60
+        def uniform_extract(feat, t_max, avg: bool = True):
+        -> the resampler the training path uses
+  [ok ] utils/tools.py:62
+        r = np.linspace(0, len(feat), t_max+1, dtype=np.int32)
+        -> compresses the whole clip into t_max frames
+  [ok ] utils/tools.py:82
+        def process_feat(feat, length, is_random=False):
+        -> training entry point
+  [ok ] utils/tools.py:92
+        def process_split(feat, length):
+        -> test entry point
+  [ok ] xd_option.py:7
+        parser.add_argument('--visual-length', default=256, type=int)
+        -> default window length, XD
+  [ok ] ucf_option.py:7
+        parser.add_argument('--visual-length', default=256, type=int)
+        -> default window length, UCF
+
+  all 13 claims verified against the source tree

@@ -1,0 +1,39 @@
+==========================================================================
+R2 -- residual test at the segment unit vs the video unit
+==========================================================================
+  videos in the trunk dump        : 800
+  video dropped by the probe      : #389
+  videos behind the residual test : 799 (map exact, 145701 segments,
+  182.4 per video)
+
+  CONTROL: reproduce the published segment-level numbers
+    ut_magnitude   residual AUC 0.5496  z +27.60   matches the published row
+    wave_c0        residual AUC 0.5424  z +23.62   matches the published row
+    wave_K192      residual AUC 0.5365  z +20.37   matches the published row
+    waveD_fullD    residual AUC 0.5290  z +16.19   matches the published row
+
+  CLUSTER BOOTSTRAP: resample the 799 videos with replacement, pool
+  their segments, recompute the AUC of the same residual scores
+  (2000 resamples).  SE ratio = bootstrap SE / Hanley-McNeil SE --
+  how much the published z is inflated.  deff is the design effect,
+  the VARIANCE ratio, i.e. the SE ratio squared.  z_video is the
+  same AUC against the clustered SE.
+
+  variant         resid AUC    z seg    95% bootstrap CI (AUC)   SE boot     SE HM  z video  SE ratio    deff
+  ut_magnitude       0.5496   +27.60   [+0.5237, +0.5762]   0.01375   0.00180    +3.61      7.7x     59x
+  wave_c0            0.5424   +23.62   [+0.5159, +0.5702]   0.01380   0.00179    +3.07      7.7x     59x
+  wave_K192          0.5365   +20.37   [+0.5087, +0.5629]   0.01354   0.00179    +2.70      7.6x     57x
+  waveD_fullD        0.5290   +16.19   [+0.5000, +0.5575]   0.01484   0.00179    +1.95      8.3x     69x
+
+READING
+  The residual AUCs are identical by construction -- only the standard
+  error moves, and it moves by the SE ratio, so the published z
+  is inflated by that factor.  The paper's claim about this table is
+  the ORDERING (the magnitude control leads after residualising, and
+  the strongest oscillatory variant loses to it), not the magnitude of
+  any z; the ordering is a property of the point estimates and so is
+  untouched by the unit.
+  Largest SE ratio: waveD_fullD, z +16.19 -> +1.95 (8.3x, i.e. deff 69x).
+  SE ratio range 7.6-8.3x  ->  deff range 57-69x.
+  Variants that keep z > 3 at the video unit: ut_magnitude, wave_c0.
+

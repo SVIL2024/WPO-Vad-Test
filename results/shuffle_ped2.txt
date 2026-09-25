@@ -1,0 +1,24 @@
+Ped2 shuffle control (CORRECTED, v2) -- CLIP ViT-B/16, patch view
+produced by controls/shuffle_ped2.py  (cache: _shuffle2_cache.npz)
+
+d_orig = anomalous - normal band shares, original temporal order
+d_shuf = same, frame order shuffled (mean of 5 shuffles, seed 0)
+
+  band         d_orig     d_shuf
+  21-64       +0.1269    -0.0007
+  10-21       -0.0253    -0.0005
+  5-10        -0.0399    -0.0025
+  2-5         -0.0404    +0.0018
+  1-2         -0.0213    +0.0020
+
+  |d_orig| = 0.1429
+  |d_shuf| = 0.0037
+  cos(d_orig, d_shuf)          = -0.164
+  |d_shuf| / |d_orig| (ratio)  = 0.026
+
+PRE-REGISTERED READING: ratio < 0.3 -> the difference depends on
+temporal order (the paper's claim).  ratio > 0.8 -> it is a
+marginal-distribution property and the 'temporal' wording is
+misleading.  Observed ratio 0.026 < 0.3: temporal claim holds.
+
+This is the number reported in the paper (0.026 on UCSD Ped2).

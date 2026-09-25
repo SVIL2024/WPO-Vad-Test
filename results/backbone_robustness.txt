@@ -1,0 +1,106 @@
+
+==========================================================================
+clip_vit_b16   (grid 14x14)
+==========================================================================
+  band        | GLOBAL  n=66/20          | PATCH   n=62/86         
+              |   normal    anom       z |   normal    anom       z
+  21-64 fr    |   0.3007  0.3437   +2.39 |   0.4999  0.6267  +21.67
+  10-21 fr    |   0.3574  0.3207   -2.74 |   0.2290  0.2037   -6.97
+   5-10 fr    |   0.1809  0.1785   -0.27 |   0.1356  0.0957  -18.29
+   2- 5 fr    |   0.1183  0.1140   -0.76 |   0.0930  0.0527  -22.68
+   1- 2 fr    |   0.0426  0.0431   +0.25 |   0.0425  0.0212  -19.77
+  calibration, nat-scaled (amp 1.0x):
+                   21-64 fr   10-21 fr    5-10 fr    2- 5 fr    1- 2 fr
+    period 16        -0.0149    +0.0230    -0.0043    -0.0027    -0.0011
+    period 8         -0.0200    -0.0094    +0.0336    -0.0030    -0.0012
+  calibration, POWER-MATCHED (tone carries `frac` of window detrended power):
+                   21-64 fr   10-21 fr    5-10 fr    2- 5 fr    1- 2 fr
+    p16 f=0.10     -0.1485    +0.2358    -0.0461    -0.0291    -0.0121
+    p16 f=0.25     -0.2180    +0.3391    -0.0643    -0.0399    -0.0168
+    p16 f=0.50     -0.2652    +0.4083    -0.0761    -0.0472    -0.0198
+    p8  f=0.10     -0.1534    -0.0871    +0.2821    -0.0293    -0.0122
+    p8  f=0.25     -0.2200    -0.1202    +0.3972    -0.0402    -0.0168
+    p8  f=0.50     -0.2724    -0.1431    +0.4829    -0.0475    -0.0200
+  slow-band share of window power: 0.523   window detrended power: 26.2
+
+==========================================================================
+clip_rn50   (grid 7x7)
+==========================================================================
+  band        | GLOBAL  n=66/20          | PATCH   n=62/86         
+              |   normal    anom       z |   normal    anom       z
+  21-64 fr    |   0.3461  0.3957   +2.30 |   0.4659  0.6939  +14.52
+  10-21 fr    |   0.2654  0.2641   -0.10 |   0.2342  0.1575  -10.58
+   5-10 fr    |   0.1863  0.1594   -1.99 |   0.1401  0.0713  -14.90
+   2- 5 fr    |   0.1381  0.1265   -1.91 |   0.1080  0.0532  -13.59
+   1- 2 fr    |   0.0642  0.0543   -2.29 |   0.0518  0.0241  -14.40
+  calibration, nat-scaled (amp 1.0x):
+                   21-64 fr   10-21 fr    5-10 fr    2- 5 fr    1- 2 fr
+    period 16        -0.0094    +0.0154    -0.0030    -0.0021    -0.0009
+    period 8         -0.0161    -0.0088    +0.0302    -0.0037    -0.0016
+  calibration, POWER-MATCHED (tone carries `frac` of window detrended power):
+                   21-64 fr   10-21 fr    5-10 fr    2- 5 fr    1- 2 fr
+    p16 f=0.10     -0.1136    +0.1786    -0.0319    -0.0222    -0.0108
+    p16 f=0.25     -0.1920    +0.3075    -0.0569    -0.0400    -0.0187
+    p16 f=0.50     -0.2251    +0.3554    -0.0645    -0.0448    -0.0210
+    p8  f=0.10     -0.1155    -0.0564    +0.2060    -0.0229    -0.0112
+    p8  f=0.25     -0.1823    -0.0899    +0.3257    -0.0364    -0.0171
+    p8  f=0.50     -0.2402    -0.1195    +0.4306    -0.0485    -0.0225
+  slow-band share of window power: 0.480   window detrended power: 26.8
+
+==========================================================================
+inet_rn50   (grid 7x7)
+==========================================================================
+  band        | GLOBAL  n=66/20          | PATCH   n=62/86         
+              |   normal    anom       z |   normal    anom       z
+  21-64 fr    |   0.3486  0.3802   +1.35 |   0.4186  0.4433   +1.69
+  10-21 fr    |   0.3588  0.3229   -1.82 |   0.2890  0.2839   -0.47
+   5-10 fr    |   0.1613  0.1565   -0.56 |   0.1479  0.1425   -1.03
+   2- 5 fr    |   0.0965  0.1025   +1.16 |   0.1022  0.0947   -2.10
+   1- 2 fr    |   0.0348  0.0379   +1.66 |   0.0423  0.0356   -5.05
+  calibration, nat-scaled (amp 1.0x):
+                   21-64 fr   10-21 fr    5-10 fr    2- 5 fr    1- 2 fr
+    period 16        -0.0010    +0.0011    -0.0001    -0.0001    -0.0000
+    period 8         -0.0103    -0.0064    +0.0200    -0.0024    -0.0009
+  calibration, POWER-MATCHED (tone carries `frac` of window detrended power):
+                   21-64 fr   10-21 fr    5-10 fr    2- 5 fr    1- 2 fr
+    p16 f=0.10     -0.0759    +0.1111    -0.0183    -0.0117    -0.0051
+    p16 f=0.25     -0.1448    +0.2271    -0.0444    -0.0274    -0.0105
+    p16 f=0.50     -0.1984    +0.3120    -0.0605    -0.0385    -0.0146
+    p8  f=0.10     -0.0900    -0.0485    +0.1629    -0.0175    -0.0069
+    p8  f=0.25     -0.1496    -0.0795    +0.2692    -0.0289    -0.0112
+    p8  f=0.50     -0.2081    -0.1152    +0.3806    -0.0415    -0.0157
+  slow-band share of window power: 0.421   window detrended power: 31.53
+
+==========================================================================
+SUMMARY - the band a behavioural rhythm would occupy (10-21 fr)
+==========================================================================
+  backbone         GLOB z  PATCH z     cal nat   real dMid     te-nat    te-POWER
+  clip_vit_b16      -2.74    -6.97      0.0230     -0.0253      -1.10       -0.07
+  clip_rn50         -0.10   -10.58      0.0154     -0.0766      -4.98       -0.25
+  inet_rn50         -1.82    -0.47      0.0011     -0.0052      -4.66       -0.02
+
+  POWER-MATCHED calibration (25%% tone) per backbone, mid band:
+    clip_vit_b16   +0.3391
+    clip_rn50      +0.3075
+    inet_rn50      +0.2271
+
+  te-POWER = real mid-band shift / response to a 25%-power pure tone.
+  If this is clearly negative for EVERY backbone, the 'no mid-band
+  rhythm' finding is not a backbone artefact -- including ImageNet RN50.
+
+  tone-equiv = real mid-band shift / response to a 1x pure tone.
+  Negative means the data moves AWAY from tone-like. |tone-equiv| >= 1
+  means the deviation is at least as large as a full-amplitude tone.
+  PCA16 = variance fraction carried by the 16 measured directions.
+
+  Minimum detectable tone: the tone power (as a fraction of the
+  window's own detrended power) that would move the mid band by as much
+  as the REAL anomalous-vs-normal shift did. Smaller = more sensitive.
+  backbone          real dMid      cal@25%   min tone pow
+  clip_vit_b16        -0.0253       0.3391          1.87%
+  clip_rn50           -0.0766       0.3075          6.23%
+  inet_rn50           -0.0052       0.2271          0.57%
+
+  Read: calibration must be POSITIVE (statistic sees the tone).
+  If PATCH z stays clearly NEGATIVE for every backbone, the finding is
+  not an artefact of one backbone's architecture or pretraining.

@@ -1,0 +1,39 @@
+clips: 12 test (with pixel GT), 16 train (all normal)
+fitting PCA ...
+  global 512 -> 16,  patch 768 -> 16
+
+=== GLOBAL view (512-d pooled, same kind as XD) ===
+  n_windows: anomalous=66  normal=20
+  band            normal    anomal    ratio        z
+  21-64 fr        0.3007    0.3437    1.143    +2.39
+  10-21 fr        0.3574    0.3207    0.897    -2.74
+   5-10 fr        0.1809    0.1785    0.987    -0.27
+   2- 5 fr        0.1183    0.1140    0.963    -0.76
+   1- 2 fr        0.0426    0.0431    1.011    +0.25
+
+=== PATCH view (per-patch tokens, GT-selected) ===
+  n_windows: anomalous=62  normal=86
+  band            normal    anomal    ratio        z
+  21-64 fr        0.4999    0.6267    1.254   +21.67
+  10-21 fr        0.2290    0.2037    0.889    -6.97
+   5-10 fr        0.1356    0.0957    0.706   -18.29
+   2- 5 fr        0.0930    0.0527    0.566   -22.68
+   1- 2 fr        0.0425    0.0212    0.499   -19.77
+
+=== CALIBRATION (patch view): inject a known tone into normal patches ===
+  injection                 21-64 fr   10-21 fr    5-10 fr    2- 5 fr    1- 2 fr
+  clean                       0.5228     0.2406     0.1269     0.0772     0.0325
+  (natural fluctuation scale along the injected direction: 7.671)
+  ring period 16 0.5x        -0.0039    +0.0060    -0.0011    -0.0007    -0.0003
+  ring period 16 1.0x        -0.0109    +0.0162    -0.0029    -0.0017    -0.0007
+  ring period 16 2.0x        -0.0560    +0.0846    -0.0153    -0.0094    -0.0038
+  ring period 8 0.5x         -0.0054    -0.0026    +0.0092    -0.0008    -0.0003
+  ring period 8 1.0x         -0.0166    -0.0083    +0.0287    -0.0027    -0.0011
+  ring period 8 2.0x         -0.0535    -0.0265    +0.0950    -0.0103    -0.0047
+
+=== VERDICT ===
+  global mid-band (10-21 fr) z = -2.74
+  patch  mid-band (10-21 fr) z = -6.97
+  -> calibration must show a positive mid-band shift for period 16;
+     if real data then shows z <= 0 in BOTH views, the XD finding is
+     NOT a spatial-pooling artefact.

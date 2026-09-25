@@ -1,0 +1,74 @@
+==============================================================================
+MULTI-SCALE ARMS -- 4 seeds, 1 epoch, fixed time base
+==============================================================================
+  seeds: 999999, 789, 2024, 1234
+
+  E1  (K=1)      AP   mean=0.7183 sd=0.0124  (paper 0.7183 +- 0.0124)
+  [ok] E1  (K=1) AP mean  -- derived 0.7183
+  [ok] E1  (K=1) AP sd  -- derived 0.0124
+  E1  (K=1)      AUC  mean=0.9187 sd=0.0008  (paper 0.9187 +- 0.0008)
+  [ok] E1  (K=1) AUC mean  -- derived 0.9187
+  [ok] E1  (K=1) AUC sd  -- derived 0.0008
+  E2  (1,8,16)   AP   mean=0.7921 sd=0.0345  (paper 0.7921 +- 0.0345)
+  [ok] E2  (1,8,16) AP mean  -- derived 0.7921
+  [ok] E2  (1,8,16) AP sd  -- derived 0.0345
+  E2  (1,8,16)   AUC  mean=0.9365 sd=0.0063  (paper 0.9365 +- 0.0063)
+  [ok] E2  (1,8,16) AUC mean  -- derived 0.9365
+  [ok] E2  (1,8,16) AUC sd  -- derived 0.0063
+  E2b (1,2,4)    AP   mean=0.7546 sd=0.0320  (paper 0.7546 +- 0.0320)
+  [ok] E2b (1,2,4) AP mean  -- derived 0.7546
+  [ok] E2b (1,2,4) AP sd  -- derived 0.0320
+  E2b (1,2,4)    AUC  mean=0.9314 sd=0.0044  (paper 0.9314 +- 0.0044)
+  [ok] E2b (1,2,4) AUC mean  -- derived 0.9314
+  [ok] E2b (1,2,4) AUC sd  -- derived 0.0044
+
+==============================================================================
+PAIRED SAME-SEED COMPARISONS -- df = 3
+==============================================================================
+  comparison           diff        t        p  p (paper)  survives
+  E2-E1 (AUC)       +0.0178     6.17   0.0086     0.0086  yes
+  [ok] E2-E1 (AUC) diff mean  -- derived +0.0178
+  [ok] E2-E1 (AUC) diff sd  -- derived 0.0058
+  [ok] E2-E1 (AUC) t attainable from 4-dp inputs  -- t over the rounding cell [6.0763, 6.2737], paper 6.17
+  [ok] E2-E1 (AUC) p attainable from 4-dp inputs  -- p over the rounding cell [0.008176, 0.008948], paper 0.0086
+  [ok] E2-E1 (AUC) 4/4 same sign  -- signs ++++
+  E2-E2b (AP)       +0.0376     5.40   0.0125     0.0126  yes
+  [ok] E2-E2b (AP) diff mean  -- derived +0.0376
+  [ok] E2-E2b (AP) diff sd  -- derived 0.0139
+  [ok] E2-E2b (AP) t attainable from 4-dp inputs  -- t over the rounding cell [5.3516, 5.4401], paper 5.40
+  [ok] E2-E2b (AP) p attainable from 4-dp inputs  -- p over the rounding cell [0.012195, 0.012763], paper 0.0126
+  [ok] E2-E2b (AP) 4/4 same sign  -- signs ++++
+  E2-E1 (AP)        +0.0738     4.07   0.0267      0.027  nominal
+  [ok] E2-E1 (AP) diff mean  -- derived +0.0738
+  [ok] E2-E1 (AP) diff sd  -- derived 0.0362
+  [ok] E2-E1 (AP) t attainable from 4-dp inputs  -- t over the rounding cell [4.0635, 4.0862], paper 4.08
+  [ok] E2-E1 (AP) p attainable from 4-dp inputs  -- p over the rounding cell [0.026484, 0.026875], paper 0.027
+  [ok] E2-E1 (AP) 4/4 same sign  -- signs ++++
+  E2-E2b (AUC)      +0.0051     3.35   0.0439      0.044  nominal
+  [ok] E2-E2b (AUC) diff mean  -- derived +0.0051
+  [ok] E2-E2b (AUC) diff sd  -- derived 0.0030
+  [ok] E2-E2b (AUC) t attainable from 4-dp inputs  -- t over the rounding cell [3.2527, 3.4608], paper 3.35
+  [ok] E2-E2b (AUC) p attainable from 4-dp inputs  -- p over the rounding cell [0.040617, 0.047391], paper 0.044
+  [ok] E2-E2b (AUC) 4/4 same sign  -- signs ++++
+
+  Holm-Bonferroni step-down, alpha = 0.05 over 4 rows:
+    E2-E1 (AUC)    p=0.0086  threshold=0.01250  -> yes      (paper yes)
+  [ok] E2-E1 (AUC) Holm verdict  -- derived yes, paper yes
+    E2-E2b (AP)    p=0.0125  threshold=0.01667  -> yes      (paper yes)
+  [ok] E2-E2b (AP) Holm verdict  -- derived yes, paper yes
+    E2-E1 (AP)     p=0.0267  threshold=0.02500  -> nominal  (paper nominal)
+  [ok] E2-E1 (AP) Holm verdict  -- derived nominal, paper nominal
+    E2-E2b (AUC)   p=0.0439  threshold=0.05000  -> nominal  (paper nominal)
+  [ok] E2-E2b (AUC) Holm verdict  -- derived nominal, paper nominal
+
+  Is the verdict stable across the recording precision?  Re-test the
+  step-down at the far edge of each row's rounding cell:
+    E2-E1 (AUC)    largest  p=0.0089 clears  threshold=0.01250  (margin 28.4%)
+    E2-E2b (AP)    largest  p=0.0128 clears  threshold=0.01667  (margin 23.4%)
+    E2-E1 (AP)     smallest p=0.0265 still exceeds threshold=0.02500
+  [ok] the step-down stops at the same row for every input in the cell  -- stops at rank 2
+  [ok] the two rows above the stop survive at their worst case
+
+All printed cells of tab:arms and tab:paired reproduce from the
+per-seed values, and the survive/nominal column does not turn on the
+last recorded digit.

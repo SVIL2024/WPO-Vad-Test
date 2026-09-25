@@ -1,0 +1,28 @@
+C:\ProgramData\anaconda3\envs\pytorch\lib\site-packages\torch\jit\_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+[J2] 420 train frames from ['Train001', 'Train002', 'Train003']
+[J2] clean encoded (420, 196, 768) in 113s
+
+[J2] clean shape          0.5198    0.2337    0.1300    0.0816    0.0349
+[J2] sigma= 0.5/255 delta    -0.0583   -0.0248   +0.0046   +0.0415   +0.0370
+[J2] sigma= 1.0/255 delta    -0.1210   -0.0487   +0.0102   +0.0852   +0.0743
+[J2] sigma= 2.0/255 delta    -0.1823   -0.0706   +0.0164   +0.1263   +0.1102
+[J2] sigma= 4.0/255 delta    -0.2292   -0.0855   +0.0203   +0.1575   +0.1369
+
+[J2] REAL P1 delta       +0.1269   -0.0253   -0.0399   -0.0404   -0.0213
+
+==============================================================================
+J2: can jitter reproduce the P1 anomaly signature?
+==============================================================================
+  sigma(/255)         cos |d|/|real|   verdict
+  0.5              -0.780      0.591   OPPOSITE sign - P1 conservative
+  1.0              -0.791      1.210   OPPOSITE sign - P1 conservative
+  2.0              -0.799      1.806   OPPOSITE sign - P1 conservative
+  4.0              -0.804      2.256   OPPOSITE sign - P1 conservative
+
+  cos < 0 means jitter moves the spectral shape the OPPOSITE way to
+  the anomaly signature, so the measured mid/fast-band DEFICITS are
+  conservative lower bounds, not artefacts.
+
+  total 9.6 min
+[J2] cached -> results_ped2/_jitter2_cache.npz

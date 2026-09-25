@@ -1,0 +1,35 @@
+C:\ProgramData\anaconda3\envs\pytorch\lib\site-packages\torch\jit\_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+[jitter] backbone=clip_vit_b16 grid=14 clips=3 sigmas=[1.0, 2.0, 4.0]
+[jitter] channel std = [0.26862955 0.2613026  0.2757771 ]
+[jitter] Test001 T=180  194s
+[jitter] Test002 T=180  391s
+[jitter] Test003 T=150  554s
+
+==============================================================================
+ENCODER JITTER FLOOR   backbone=clip_vit_b16   3 clips   noise sigma in /255
+==============================================================================
+
+  GLOBAL (all dims)
+    band           P_X (abs)        r(s=1)       r(s=2)       r(s=4)
+    21-64 fr           3.086        0.3615       0.4455       0.5577
+    10-21 fr           3.527        0.2740       0.3750       0.5277
+     5-10 fr           1.918        0.3922       0.6208       0.9349
+     2- 5 fr           1.286        0.6104       1.0772       1.7103
+     1- 2 fr          0.4874        0.9653       1.9290       3.0391
+
+  PATCH (16-d PCA)
+    band           P_X (abs)        r(s=1)       r(s=2)       r(s=4)
+    21-64 fr            2703        0.0763       0.1282       0.2226
+    10-21 fr           937.6        0.2342       0.3895       0.5872
+     5-10 fr           464.9        0.6747       1.0985       1.6163
+     2- 5 fr           293.4        1.6544       2.6450       4.1321
+     1- 2 fr           129.1        2.6532       4.4750       7.0673
+
+  r = jitter power / real signal power in the same band.
+  Pre-registered reading: r < 0.2 -> roughness is scene dynamics;
+  r > 0.5 -> roughness is largely encoder sensitivity (qualify P1).
+  Either way the 2.6.2 tone bound is unaffected: the calibration
+  measures an INCREMENTAL shift on the real, jittered signal.
+
+  total 9.2 min

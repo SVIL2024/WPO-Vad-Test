@@ -1,0 +1,91 @@
+================================================================================
+FIELD-LEVEL 5-SEED BASELINE  --  logs_fetch/baseline_5seed.log
+================================================================================
+
+  AUDIT (ops/_audit_baseline_log.py): the run's own summary line is
+  built as  UCF=(AUC1,AP1)  but  XD=(AUC1,AP2).  Two different
+  conventions across datasets -> do NOT quote 'XD AP sd' as a
+  cross-dataset fact without saying which column it came from.
+
+================================================================================
+(A) CONSISTENT  -- col1 for BOTH datasets   (the only apples-to-apples reading)
+================================================================================
+
+  UCF-Crime
+    seed     AUC     AP
+    42        0.8553   0.2574
+    234       0.8711   0.2971
+    555       0.8592   0.2642
+    789       0.8632   0.2902
+    999999    0.8565   0.2744
+    ------------------------------------------
+    mean      0.8611   0.2767
+    sd        0.0064   0.0168
+    range     0.0158   0.0397
+    AP/AUC sd ratio = 2.6x
+
+  XD-Violence
+    seed     AUC     AP
+    42        0.9385   0.8026
+    234       0.9418   0.8173
+    555       0.9440   0.8258
+    789       0.9406   0.8146
+    999999    0.9387   0.8069
+    ------------------------------------------
+    mean      0.9407   0.8134
+    sd        0.0023   0.0091
+    range     0.0055   0.0232
+    AP/AUC sd ratio = 4.0x
+
+================================================================================
+(B) AS-LOGGED  -- exactly what the run printed   (UCF=col1, XD=col1-AUC + col2-AP)
+================================================================================
+
+  UCF-Crime
+    seed     AUC     AP
+    42        0.8553   0.2574
+    234       0.8711   0.2971
+    555       0.8592   0.2642
+    789       0.8632   0.2902
+    999999    0.8565   0.2744
+    ------------------------------------------
+    mean      0.8611   0.2767
+    sd        0.0064   0.0168
+    range     0.0158   0.0397
+    AP/AUC sd ratio = 2.6x
+
+  XD-Violence
+    seed     AUC     AP
+    42        0.9385   0.7623
+    234       0.9418   0.8376
+    555       0.9440   0.8390
+    789       0.9406   0.8306
+    999999    0.9387   0.8136
+    ------------------------------------------
+    mean      0.9407   0.8166
+    sd        0.0023   0.0320
+    range     0.0055   0.0767
+    AP/AUC sd ratio = 14.0x
+
+================================================================================
+OUR INTERNAL (4 seeds, 1 epoch, fixed-timebase)  -- paper section 3.1
+================================================================================
+  E1  (K=1) AP mean=0.7183 sd=0.0124 range=0.0284
+  E2  (K=3) AP mean=0.7921 sd=0.0345 range=0.0781
+  E2b (K=3) AP mean=0.7546 sd=0.0320 range=0.0738
+
+================================================================================
+CROSS-PLATFORM AP sd, consistent col1 convention
+================================================================================
+  config                          AP mean      AP sd
+  ours E1  (4 seed, 1 ep)          0.7183     0.0124
+  ours E2  (4 seed, 1 ep)          0.7921     0.0345
+  ours E2b (4 seed, 1 ep)          0.7546     0.0320
+  VadCLIP UCF (5 seed, 5+ ep)      0.2767     0.0168
+  VadCLIP XD  (5 seed, 5+ ep)      0.8134     0.0091
+
+  ALL five independent measurements show AP sd in 0.009 - 0.035.
+  Ours (1 epoch) is the noisiest; VadCLIP (5+ epochs, early stop) is
+  tighter.  The P3 claim 'single-seed AP is unreliable' holds on all
+  of them -- but the earlier '0.0339 matches our 0.0345 digit for digit'
+  line was a column-mismatch artefact and has been withdrawn.

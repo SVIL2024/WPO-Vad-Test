@@ -1,0 +1,18 @@
+python>=3.9
+
+# --- the premise test and the statistics ---------------------------------
+numpy
+scipy            # t tests and confidence intervals
+
+# --- figures --------------------------------------------------------------
+matplotlib
+
+# --- feature extraction and the image controls only -----------------------
+# The premise test itself is numpy-only: none of the packages below are needed
+# to check the paper's central claim on frozen features.
+torch
+torchvision
+Pillow           # imported as PIL
+clip             # OpenAI CLIP -- pip install git+https://github.com/openai/CLIP.git
+                 # (PyPI's `clip` is a different package)
+scikit-learn     # complementarity/ only

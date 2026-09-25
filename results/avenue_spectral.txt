@@ -1,0 +1,24 @@
+P5 replicated on CUHK Avenue (CLIP ViT-B/16, 21 test + 4 train clips)
+
+=== PATCH view (per-patch tokens, GT-selected) ===
+n_windows: normal=883 anomalous=339
+  21-64 fr        0.4732    0.4759    1.006     +0.56
+  10-21 fr        0.2570    0.2476    0.963     -4.57
+   5-10 fr        0.1396    0.1458    1.044     +3.47
+   2- 5 fr        0.0897    0.0918    1.023     +1.40
+   1- 2 fr        0.0405    0.0389    0.961     -1.67
+  delta:   +0.0027  -0.0094  +0.0062  +0.0021  -0.0016
+
+=== GLOBAL view (512-d pooled, XD-comparable) ===
+n_windows: normal=532 anomalous=345
+  21-64 fr        0.3960    0.4086    1.032     +2.47
+  10-21 fr        0.2658    0.2535    0.954     -4.51
+   5-10 fr        0.1775    0.1748    0.985     -1.17
+   2- 5 fr        0.1123    0.1135    1.010     +0.67
+   1- 2 fr        0.0484    0.0496    1.025     +1.37
+  delta:   +0.0127  -0.0123  -0.0027  +0.0012  +0.0012
+
+=== P7 shuffle control (patch view) ===
+cos = +0.404
+ratio |d_shuf|/|d_orig| = 0.103
+verdict: temporal structure -- 'temporal' framing OK

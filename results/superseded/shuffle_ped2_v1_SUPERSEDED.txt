@@ -1,0 +1,32 @@
+SUPERSEDED -- DO NOT CITE.
+This is the output of the FIRST shuffle implementation.  It re-encoded
+every clip from raw frames, fitted PCA on test data only, and averaged
+per CLIP instead of per window; its d_orig did not reproduce the
+published premise delta (band 0 even flipped sign).  It reports
+ratio = 1.054, i.e. the opposite verdict.  The corrected version is
+../shuffle_ped2.txt (ratio = 0.026), which asserts that d_orig matches
+backbone_robustness.txt before trusting the comparison.
+Kept only as evidence of the bug and its fix.
+---------------------------------------------------------------------
+C:\ProgramData\anaconda3\envs\pytorch\lib\site-packages\torch\jit\_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+[S] 12 test clips
+[S] encoded 12 clips in 988s
+
+[S] original between-class delta (anom - norm):
+         -0.0206   -0.0793   -0.0668   -0.0558   -0.0276
+[S] mean shuffled delta (averaged over 5 shuffles):
+         -0.0140   -0.0237   -0.0494   -0.0929   -0.0699
+
+======================================================================
+S: does the spectral shape depend on temporal order?
+======================================================================
+  cos(d_orig, d_shuf_mean) = 0.793
+  |d_shuf_mean| / |d_orig| = 1.054
+  verdict: between-class difference is largely INDISTINGUISHABLE from a marginal-distribution property
+
+  pre-registered reading: ratio < 0.3 -> 'temporal' framing ok;
+  ratio > 0.8 -> 'temporal' wording is misleading.
+[S] cached -> results_ped2/_shuffle_cache.npz
+
+  total 16.6 min

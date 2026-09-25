@@ -1,0 +1,32 @@
+Uncertainty of the seed-noise estimates  (95% interval, chi-square on sigma; paired enumeration on the ratio)
+==============================================================================
+
+(1) INTERVAL ON sigma, our own arms (n = 4)
+    measurement               sd        95% CI on sigma    width
+    ours E1  AP (1 ep)    0.0124  [ 0.0070,  0.0462]    6.58x
+    ours E2  AP (1 ep)    0.0345  [ 0.0195,  0.1286]    6.58x
+    ours E2b AP (1 ep)    0.0320  [ 0.0181,  0.1193]    6.58x
+    n = 4 gives a 6.6x-wide interval. The absolute seed counts inherit it.
+
+    seeds needed to resolve a 1-point gain, propagated through that interval:
+    measurement             point             95% CI
+    ours E1  AP (1 ep)         15  [    7,    170]
+    ours E2  AP (1 ep)         96  [   32,   1301]
+    ours E2b AP (1 ep)         83  [   28,   1120]
+    Read: even at the OPTIMISTIC end our arms need 7-32 seeds for one point;
+    the field reports single-seed gains of 0.5-2 points.
+
+(2) THE COMPARATIVE CLAIM: AP vs AUC, same seeds
+    AP and AUC come from the same runs, so the ratio is resampled PAIRED
+    (all 5^5 resamples enumerated; no Monte Carlo error).
+
+    dataset         point      95% CI on ratio P(ratio<1) P(ratio<2)
+    UCF-Crime        4.2x  [  1.5x,   6.0x]       0.003      0.080
+               (sd AUC 0.0064, sd AP 0.0168, n = 5 seeds, 3120 resamples)
+    XD-Violence      3.0x  [  1.3x,   4.3x]       0.000      0.179
+               (sd AUC 0.0023, sd AP 0.0091, n = 5 seeds, 3120 resamples)
+
+    Read: the DIRECTION is robust -- the probability that AP needs no more
+    seeds than AUC is 0.003 (UCF) and 0.000 (XD). The MAGNITUDE is soft:
+    the paper's 'three to seven times' should be read as a point estimate
+    whose interval runs from about 1.3x to 6x.

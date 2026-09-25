@@ -1,0 +1,77 @@
+videos per class: A=2049, B1=445, B2=336, B4=381, B5=36, B6=393, G=314
+fitting PCA on a mixed sample ...
+  16 temporal directions
+  normal         79 videos
+  fighting       77 videos
+  shooting       71 videos
+  riot           79 videos
+  abuse          36 videos
+  car accident   79 videos
+  explosion      74 videos
+
+==========================================================================
+WINDOW = 32 frames
+==========================================================================
+  class          n    period 21-64 frperiod 10-21 frperiod  5-10 frperiod  2- 5 frperiod  1- 2 fr
+  normal         79         0.1917      0.1844      0.2636      0.2260      0.1344
+  fighting       77        -0.0488     -0.0405     -0.0101     +0.0559     +0.0437   tiltR2=0.86 peak at band 3
+                              -6.7        -7.9        -2.3        +8.2        +7.5   (z)
+  shooting       71        -0.0687     -0.0493     -0.0006     +0.0700     +0.0486   tiltR2=0.87 peak at band 3
+                              -9.2        -8.2        -0.1        +8.5        +7.2   (z)
+  riot           79        -0.0069     -0.0146     -0.0214     +0.0202     +0.0227   tiltR2=0.54 TILT->fastest
+                              -1.0        -2.9        -4.7        +3.1        +4.3   (z)
+  abuse          36        -0.0349     -0.0262     +0.0050     +0.0408     +0.0153   tiltR2=0.73 peak at band 3
+                              -3.5        -3.7        +0.7        +4.0        +2.4   (z)
+  car accident   79        +0.0261     -0.0065     -0.0265     +0.0004     +0.0066   tiltR2=0.07 peak at band 0
+                              +3.0        -1.2        -5.7        +0.1        +1.2   (z)
+  explosion      74        -0.0022     -0.0090     -0.0115     +0.0139     +0.0088   tiltR2=0.41 peak at band 3
+                              -0.3        -1.7        -2.1        +1.9        +1.7   (z)
+  reading: a rhythmic class shows ONE positive band with the rest
+  negative and a LOW tilt R^2. A tilt is: slow bands negative,
+  fastest band the most positive, tilt R^2 high.
+
+==========================================================================
+WINDOW = 64 frames
+==========================================================================
+  class          n    period 21-64 frperiod 10-21 frperiod  5-10 frperiod  2- 5 frperiod  1- 2 fr
+  normal         79         0.2756      0.2352      0.2050      0.1834      0.1007
+  fighting       77        -0.0615     -0.0462     +0.0057     +0.0605     +0.0416   tiltR2=0.86 peak at band 3
+                              -5.0        -7.3        +1.1        +7.8        +7.5   (z)
+  shooting       71        -0.1039     -0.0520     +0.0231     +0.0821     +0.0509   tiltR2=0.84 peak at band 3
+                              -8.9        -6.9        +4.0        +9.2        +8.3   (z)
+  riot           79        +0.0032     -0.0201     -0.0186     +0.0180     +0.0175   tiltR2=0.32 peak at band 3
+                              +0.3        -3.2        -3.5        +2.6        +3.6   (z)
+  abuse          36        -0.0594     -0.0265     +0.0203     +0.0473     +0.0183   tiltR2=0.73 peak at band 3
+                              -3.9        -3.0        +2.6        +4.4        +3.1   (z)
+  car accident   79        +0.0895     -0.0342     -0.0385     -0.0138     -0.0030   tiltR2=0.25 peak at band 0
+                              +6.1        -5.6        -6.4        -1.7        -0.5   (z)
+  explosion      74        +0.0223     -0.0187     -0.0156     +0.0084     +0.0036   tiltR2=0.01 peak at band 0
+                              +1.5        -2.6        -2.4        +1.1        +0.7   (z)
+  reading: a rhythmic class shows ONE positive band with the rest
+  negative and a LOW tilt R^2. A tilt is: slow bands negative,
+  fastest band the most positive, tilt R^2 high.
+
+==========================================================================
+WINDOW = 128 frames
+==========================================================================
+  class          n    period 21-64 frperiod 10-21 frperiod  5-10 frperiod  2- 5 frperiod  1- 2 fr
+  normal         79         0.2853      0.1959      0.1744      0.1581      0.0828
+  fighting       77        -0.0570     -0.0337     +0.0139     +0.0626     +0.0395   tiltR2=0.84 peak at band 3
+                              -5.1        -5.8        +2.3        +7.5        +7.4   (z)
+  shooting       71        -0.0978     -0.0320     +0.0370     +0.0897     +0.0514   tiltR2=0.80 peak at band 3
+                              -9.0        -4.7        +5.6        +9.7        +8.7   (z)
+  riot           79        +0.0060     -0.0195     -0.0179     +0.0143     +0.0133   tiltR2=0.21 peak at band 3
+                              +0.6        -3.2        -3.0        +2.0        +3.0   (z)
+  abuse          36        -0.0542     -0.0152     +0.0276     +0.0525     +0.0213   tiltR2=0.69 peak at band 3
+                              -3.8        -1.9        +3.5        +4.9        +3.8   (z)
+  car accident   79        +0.0710     -0.0487     -0.0431     -0.0202     -0.0070   tiltR2=0.18 peak at band 0
+                              +5.4        -8.7        -6.2        -2.3        -1.3   (z)
+  explosion      74        +0.0148     -0.0184     -0.0147     +0.0063     +0.0014   tiltR2=0.00 peak at band 0
+                              +1.1        -2.6        -2.0        +0.7        +0.3   (z)
+  reading: a rhythmic class shows ONE positive band with the rest
+  negative and a LOW tilt R^2. A tilt is: slow bands negative,
+  fastest band the most positive, tilt R^2 high.
+
+==========================================================================
+If every class shows a tilt at every window size, the 'anomalies are
+oscillatory' premise is dead for all of XD-Violence, not just pooled.

@@ -1,0 +1,20 @@
+Epoch budget of the reference implementation (VadCLIP, official
+default config), parsed from logs_fetch/baseline_5seed.log
+==================================================================
+'best at' = first epoch at which the best-so-far validation score was
+reached; a run that never improves on epoch 1 reports epoch 1.
+
+UCF-Crime
+  seed         epochs     best AUC    best at
+  42                5       0.8553    epoch 3
+  234               5       0.8711    epoch 3
+  555               5       0.8592    epoch 3
+  789               3       0.8632    epoch 1
+  999999            4       0.8565    epoch 2
+  epochs run: 3-5 ; best first reached at epoch 1, 2, 3
+
+CONCLUSION: the reference does NOT peak at epoch 1 in these runs
+(3 of 5 UCF seeds peak at epoch 3).  The paper must therefore not
+claim that a 1-epoch budget is like-for-like with the reference; it is
+a shorter budget, and the correct framing is that our noise figures are
+measured at the shorter end while both budgets are reported.

@@ -1,0 +1,50 @@
+==============================================================================
+T17 -- minimum detectable effect (paired, two-sided alpha=.05, power=.80)
+==============================================================================
+
+(A) using the MEASURED paired sd (section 3.3), n = 4 seeds
+    comparison                      sd_pair     MDE n=4     MDE n=5
+    E2 - E2b  AUC  (K=3 vs K=3)      0.0030      0.0062      0.0050
+    E2 - E1   AUC  (K=3 vs K=1)      0.0058      0.0121      0.0096
+    E2 - E2b  AP   (K=3 vs K=3)      0.0139      0.0289      0.0231
+    E2 - E1   AP   (K=3 vs K=1)      0.0362      0.0753      0.0602
+
+(B) using the seed-to-seed sd (official VadCLIP 5 seeds, col1)
+    when pairing does NOT help, sigma_d ~ single-seed sd (upper bound)
+    measurement                             sd     MDE n=4     MDE n=5    MDE n=10
+    ours E2      AP  (4 seed, 1 ep)     0.0345      0.0718      0.0574      0.0343
+    ours E2b     AP  (4 seed, 1 ep)     0.0320      0.0666      0.0532      0.0318
+    ours E1      AP  (4 seed, 1 ep)     0.0124      0.0258      0.0206      0.0123
+    VadCLIP UCF  AP  (5 seed, 5+ep)     0.0168      0.0350      0.0279      0.0167
+    VadCLIP XD   AP  (5 seed, 5+ep)     0.0091      0.0189      0.0151      0.0091
+    VadCLIP XD   AP  (as-logged col2)   0.0320      0.0666      0.0532      0.0318
+    VadCLIP UCF  AUC (5 seed, 5+ep)     0.0064      0.0133      0.0106      0.0064
+    VadCLIP XD   AUC (5 seed, 5+ep)     0.0023      0.0048      0.0038      0.0023
+
+(C) seeds REQUIRED to resolve a claimed gain of delta (80% power)
+    noise source (sd)                              0.005    0.010    0.020    0.030    0.050
+    ours E2      AP  (4 seed, 1 ep)     0.0345      >200       96       26       13        6
+    ours E2b     AP  (4 seed, 1 ep)     0.0320      >200       83       23       11        6
+    ours E1      AP  (4 seed, 1 ep)     0.0124        51       15        6        4        3
+    VadCLIP UCF  AP  (5 seed, 5+ep)     0.0168        91       25        8        5        4
+    VadCLIP XD   AP  (5 seed, 5+ep)     0.0091        28        9        4        3        3
+    VadCLIP XD   AP  (as-logged col2)   0.0320      >200       83       23       11        6
+    VadCLIP UCF  AUC (5 seed, 5+ep)     0.0064        15        6        3        3        3
+    VadCLIP XD   AUC (5 seed, 5+ep)     0.0023         4        3        3        2        2
+
+    (delta = absolute AP / AUC points.  VAD papers routinely claim
+     0.5-2 points; that is the column delta=0.005 / 0.010.)
+
+==============================================================================
+TAKEAWAY
+==============================================================================
+  Across every measurement we have, 4-5 seeds resolve roughly
+  1.51 to 7.18 absolute points (AP) at 80% power.
+  Best case  : XD AP, official 5 seeds, col1      -> 1.51 pp
+  Worst case : our E2 AP, 4 seeds, 1 epoch        -> 7.18 pp
+  Typical published VAD gains: 0.5-2 pp -> BELOW the resolution
+  in every configuration we measured.
+
+  Caveat to state in the paper: these use sigma_d = sd as an UPPER
+  bound where no paired sd was measured; successful pairing (section
+  3.3) shrinks sigma_d by ~2.4x and improves the MDE accordingly.

@@ -1,0 +1,23 @@
+Residual test on XD-Violence (VadCLIP trunk, CLIP ViT-B/16)
+produced by complementarity/residual_test.py
+inputs: logs_fetch/aligned_pair.npz + logs_fetch/wave_energy_test.npz
+
+segments=145701  positives=34657 (23.8%)
+
+residual = score - E[score | trunk score], 50 quantile bins;
+residual AUC is that remainder against the label; z is vs 0.5.
+
+  variant          standalone_AUC residual_AUC        z
+  ut_magnitude             0.6526       0.5496   +27.60
+  wave_c0                  0.6521       0.5424   +23.62
+  wave_K192                0.6658       0.5365   +20.37
+  waveD_fullD              0.6614       0.5290   +16.19
+
+READING
+  best standalone AUC : wave_K192 (0.6658)
+  best residual  AUC  : ut_magnitude (0.5496)
+  The ordering reverses after residualising: the strongest
+  oscillatory variant leads the magnitude control unconditionally,
+  and loses to it once the trunk score is accounted for.  Every
+  residual AUC is above chance, so the information is real; what
+  does not survive is the oscillatory operator's advantage.

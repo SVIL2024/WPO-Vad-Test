@@ -1,0 +1,14 @@
+P7 shuffle control on XD-Violence (P1's own features)
+n: normal=120 anomalous=120 clips, 5 shuffles
+
+d_orig  : -0.0165  -0.0255  -0.0079  +0.0289  +0.0211
+d_shuf  : -0.0003  -0.0004  +0.0004  +0.0002  +0.0001
+
+  bins  1- 2 (period 21-64 fr)  orig -0.0165  shuf -0.0003
+  bins  3- 5 (period 10-21 fr)  orig -0.0255  shuf -0.0004
+  bins  6-11 (period  5-10 fr)  orig -0.0079  shuf +0.0004
+  bins 12-23 (period  2- 5 fr)  orig +0.0289  shuf +0.0002
+  bins 24-32 (period  1- 2 fr)  orig +0.0211  shuf +0.0001
+
+cos = +0.594
+ratio |d_shuf|/|d_orig| = 0.015
