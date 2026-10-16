@@ -38,8 +38,8 @@ re-read.
 | `checklist/` | The ten-item minimum reporting standard from the paper, as a standalone markdown file you can copy into your own paper. |
 | `architecture/` | The training code behind every arm and mechanism in the paper. **This is the only third-party code in the repository**: `architecture/*/clip/` is a vendored and modified copy of OpenAI's CLIP, MIT, under `architecture/CLIP-LICENSE`. Everything else in the repository is our own. |
 | `seedstats.py` | The single source of truth for the seed statistics and for parsing training logs: sample mean and sd, the paired *t* test, Holm–Bonferroni, and the log readers. Nothing below computes these itself, because the same quantity is quoted in more than one table and the failure mode we are guarding against is two tables computing it by different routes and drifting apart. Standard library only — no numpy, no scipy — so "no third-party code" stays true. |
-| `logs/` | The raw per-seed training logs behind two of the paper's tables, kept verbatim so the numbers can be recomputed rather than trusted: `arms_n8/` (the three multi-scale arms at eight seeds), `decimation_n8/` (the decimation arm that separates the pooling kernel from the branch factors), `mechanism_n4/` (the two mechanism rows re-measured at four seeds), and `batch_summary.txt` (one line per run). |
-| `batch_rev.sh` | The driver that produced `logs/decimation_n8/` and `logs/mechanism_n4/`, with the exact command line for every run. Resumable: a run whose log already carries a summary line is skipped, so an interrupted batch can be relaunched without paying for finished work. **Not needed to reproduce any table in this repository** — it is here so the logs in `logs/` are traceable, not so you can re-run a GPU batch. |
+| `logs/` | The raw per-seed training logs behind two of the paper's tables, kept verbatim so the numbers can be recomputed rather than trusted: `arms_n8/` (the three multi-scale arms at eight seeds), `decimation_n8/` (the decimation arm that separates the pooling kernel from the branch factors), `mechanism_n4/` (the two mechanism rows re-measured at four seeds), `wavefield_n4/` (the wave field re-measured at four seeds), and `batch_summary.txt` (one line per run). |
+| `wf_batch.sh` | The driver that produced `logs/wavefield_n4/`, with the exact command line for every run. Resumable. **Not needed to reproduce any table in this repository** — it is here so the logs in `logs/` are traceable, not so you can re-run a GPU batch. |
 
 Two of these are newer than the rest and cover the tables added in revision:
 
@@ -247,6 +247,7 @@ as Fig. 7, and so on).
 | `tab:checklist` | `checklist/reporting_checklist.md` | — (no numbers) |
 | Table `tab:decimate` (§5.3 arm) | `architecture/src_sgl/mamba_vad_dual_model.py`, `architecture/src_sgl/xd_train_sgl.py` | `results/decimation_arm.txt` (recomputed by `resolution/decimation_arm.py`) |
 | `tab:mechanisms`, bottom block (n=4 re-measurement) | `architecture/src_sgl/wave_resonator.py`, `architecture/src_sgl/wave_tv.py` | `results/mechanism_rerun.txt` (recomputed by `complementarity/mechanism_rerun.py`) |
+| `tab:mechanisms`, (a) row (wave field, n=4) | `architecture/src/wave_field.py` | `results/wavefield_rerun.txt` (recomputed by `complementarity/wavefield_rerun.py`) |
 
 ### 5b. The arms and mechanisms (GPU)
 

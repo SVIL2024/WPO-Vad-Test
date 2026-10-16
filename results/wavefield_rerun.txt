@@ -1,0 +1,56 @@
+﻿==============================================================================
+MECHANISM (a), the wave field -- paired re-measurement
+one epoch, batch 64, single 11 GB card
+==============================================================================
+seed        control       wave      delta
+------------------------------------------------------------------------------
+42           0.7597     0.7958    +0.0361
+234          0.8368     0.8106    -0.0262
+555          0.8414     0.8167    -0.0247
+789          0.8328     0.8075    -0.0253
+------------------------------------------------------------------------------
+mean         0.8177     0.8076    -0.0100   mean, sd 0.0388 / 0.0088
+sd                                          paired sd 0.0308
+PAIRED TEST
+  delta = -0.0100 +/- 0.0308   n=4  df=3
+  t = -0.65   p = 0.5610
+  seeds with the wave field BELOW control: 3 of 4
+AGAINST THE PUBLISHED ROW
+  published, one seed (234): control 0.8490  wave 0.7736  delta -0.0754
+  this measurement        : control 0.8177  wave 0.8076  delta -0.0100
+  the published delta is -0.0754; the measured one is -0.0100
+  ratio published/measured: 7.5x
+  published |delta| in units of the one-epoch sd (0.0345): 2.19 sigma
+  measured  |delta| in the same units: 0.29 sigma
+  The published control is 0.8177 here; the gap to the published 0.8490 is -0.0313,
+  which is present in BOTH arms and so is a property of this harness and
+  budget rather than of the wave field. The contrast is unaffected by it;
+  the absolute levels are not comparable to the published ones.
+  READING
+    The DIRECTION is consistent -- 3 of 4 seeds put the wave field
+    below control, and the one seed that reverses it does so by more than
+    any of the other three differences. What does not survive is the
+    MAGNITUDE: the published single-seed figure of -0.0754 is about 7.5x the
+    paired estimate, and the paired estimate is not distinguishable from
+    zero.
+    So the largest effect in tab:mechanisms does not hold up at the
+    magnitude reported. That is this paper's own thesis applied to the
+    paper's own strongest row: a single-seed screen at these effect
+    sizes cannot distinguish a cost of about one AP point from a seed
+    draw, and -0.0754 is inside the noise of the very table that reports it.
+TWO CONFOUNDS WE HAVE NOT EXCLUDED, so this is not a refutation
+  1. Batch size. src/xd_option.py defaults to 96; this ran at 64. Both
+     arms are 0.0313 below the published control, which is why the
+     absolute levels are not comparable and only the contrast is quoted.
+     A wave-field/batch-size interaction is not ruled out.
+  2. Fusion wiring. This ran --wave-fusion logits, which is the option
+     default, but the published row carries no fusion label while two
+     separate rows in the same table are labelled evidence->logits1 and
+     feature gate. If the published row used the feature wiring, this is
+     a different branch.
+SCOPE
+  Only the from-scratch row was run. The three warm-A0 rows (evidence->logits1
+  and feature gate, trunk frozen and joint) need a warm checkpoint from a
+  matching baseline run, which is a second pipeline. They are NOT covered by
+  this measurement and must not be reported as if they were.
+FUSION MODE: logits
