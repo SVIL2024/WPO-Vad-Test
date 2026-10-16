@@ -14,12 +14,12 @@ The paper asks two questions and this repository is the instrument for both:
 
 There is no new detector here. The premise and resolution halves are
 measurement code and run on frozen, pre-extracted CLIP features with no GPU.
-Two directories are training-side rather than measurement-side and are the
-only things here that ever touched a GPU: `logs/`, the raw per-seed training
-logs behind two of the tables, and `batch_rev.sh`, the driver that produced
-them. They are shipped so that the numbers in those tables can be recomputed
-from logs rather than trusted; re-running the batch needs a GPU and the
-architecture code, which is not in this repository (see §2).
+Three things here are training-side rather than measurement-side, and they are
+the only parts that ever needed a GPU: `architecture/`, the two training
+harnesses behind the architecture and mechanism tables; `logs/`, the raw
+per-seed training logs behind two of those tables; and `batch_rev.sh`, the
+driver that produced them. Together they mean the arms can be re-run, not only
+re-read.
 
 ---
 
@@ -36,6 +36,7 @@ architecture code, which is not in this repository (see §2).
 | `figures/` | The plotting scripts: `figs_main.py` (Figs. 1, 2, 3, 8), `figs_backbone.py` (Figs. 4, 5), `figs_xd_shuffle.py` (Fig. 6), `figs_avenue.py` (Fig. 7), and `figs_ped2.py`, which renders two Ped2 diagnostics the paper does not print. They emit **vector PDF** (Okabe–Ito palette, no in-figure titles) so the figures are print-ready. |
 | `results/` | The captured output of every script above — the auditable evidence. |
 | `checklist/` | The ten-item minimum reporting standard from the paper, as a standalone markdown file you can copy into your own paper. |
+| `architecture/` | The training code behind every arm and mechanism in the paper. **This is the only third-party code in the repository**: `architecture/*/clip/` is a vendored and modified copy of OpenAI's CLIP, MIT, under `architecture/CLIP-LICENSE`. Everything else in the repository is our own. |
 | `seedstats.py` | The single source of truth for the seed statistics and for parsing training logs: sample mean and sd, the paired *t* test, Holm–Bonferroni, and the log readers. Nothing below computes these itself, because the same quantity is quoted in more than one table and the failure mode we are guarding against is two tables computing it by different routes and drifting apart. Standard library only — no numpy, no scipy — so "no third-party code" stays true. |
 | `logs/` | The raw per-seed training logs behind two of the paper's tables, kept verbatim so the numbers can be recomputed rather than trusted: `arms_n8/` (the three multi-scale arms at eight seeds), `decimation_n8/` (the decimation arm that separates the pooling kernel from the branch factors), `mechanism_n4/` (the two mechanism rows re-measured at four seeds), and `batch_summary.txt` (one line per run). |
 | `batch_rev.sh` | The driver that produced `logs/decimation_n8/` and `logs/mechanism_n4/`, with the exact command line for every run. Resumable: a run whose log already carries a summary line is skipped, so an interrupted batch can be relaunched without paying for finished work. **Not needed to reproduce any table in this repository** — it is here so the logs in `logs/` are traceable, not so you can re-run a GPU batch. |
@@ -54,40 +55,28 @@ python resolution/decimation_arm.py
 python complementarity/mechanism_rerun.py
 ```
 
-### What `decimation_arm.py` does *not* establish
-
-The decimated arm keeps the branch factors at 1,8,16 and replaces
-`F.avg_pool1d(kernel=f, stride=f)` with a pick of every *f*-th frame, so the
-stride, the output sampling rate, the output length and all weights match the
-default arm. But `avg_pool1d` with `kernel == stride` is the standard
-**anti-aliased** downsample: its boxcar is at once an average over *f*
-consecutive frames *and* a low-pass that suppresses fold-over above the new
-Nyquist rate. Dropping it removes the averaging **and** admits aliasing.
-
-The contrast therefore attributes the difference to **the pooling kernel**, and
-the 64% figure in Section 5.3 is a ratio of two measured differences, not an
-additive decomposition. It is consistent with the reading that the coarse branch
-benefits from smoothing across frames; it does **not** isolate that reading from
-anti-aliasing. Separating the two needs a third arm with an anti-aliasing filter
-that is not a centred average — a windowed-sinc resampler — which was not run.
+Both reproduction scripts carry the caveat they are meant to be read with, in
+their output and in their docstrings: `decimation_arm.py` states that the
+contrast attributes the difference to the pooling **kernel** and does not
+isolate frame averaging from anti-aliasing, and `mechanism_rerun.py` states
+that a null is not equivalence. See §2b for what the kernels themselves are.
 
 ## 2. What is *not* in here
 
-* **The architecture's own training code.** The multi-scale arms, the four
-  oscillatory mechanisms and the decimation arm of Section 5.3 were produced by a
-  training tree that is **not** part of this release. What is shipped instead is
-  the evidence: `logs/` holds the 43 per-seed training logs those arms produced,
-  `batch_rev.sh` holds every run's exact command line, and
-  `resolution/decimation_arm.py` recomputes the tables from those logs and exits
-  non-zero if a printed cell disagrees. So the numbers can be checked, but the
-  model that produced them cannot be re-trained from this repository alone. We
-  prefer that to implying otherwise: a reviewer who wants the training code
-  should ask for it rather than find a partial copy that does not run.
-* **The third-party CLIP package.** `src_sgl/clip/` in our training tree is a
-  vendored copy of OpenAI's CLIP implementation. On the same principle as the
-  VadCLIP entry below — reference, do not redistribute — it is not shipped here.
-* **The VadCLIP reference pipeline.** It is a third-party codebase with its own
-  licence; we reference it, we do not redistribute it. Two things here read it:
+* **Everything outside the two harnesses in `architecture/`.** The training code
+  that produced the arms and mechanisms is now here, but only the parts a number
+  in the manuscript depends on. Left out: the `*_wpo.py` visual branch, which is
+  a different architecture and backs no table; `_diag_*` / `_smoke_*` /
+  `diagnose_*` development scaffolding; and `wave_decode*.py`. Two harnesses are
+  shipped rather than one because they share no imports — each imports its
+  modules top-level, so each must be run from its own directory — and because
+  they are not comparable to each other: `src/` has no multi-scale branch and
+  `src_sgl/` has no wave field, which is why the wave-field rows of
+  Table 7 cannot be re-measured on the same footing as the others. The paper says
+  so in its limitations.
+* **The reference VadCLIP pipeline** from which the multi-scale branches inherit.
+  It is a third-party codebase with its own licence; we reference it, we do not
+  redistribute it. Two things here read it:
   `resolution/five_seed_audit.py` reads *training logs* from a run of that
   pipeline, so you need your own run to reproduce that number; and
   `protocol/r6_evidence.py` reads the *source tree* read-only to check the lines
@@ -174,6 +163,8 @@ different one.
 
 ## 5. Reproducing the numbers
 
+### 5a. The measurement code (no GPU)
+
 ```bash
 # the premise test and its calibration (Ped2, CLIP ViT-B/16)
 python premise_test/spectral.py            # -> results/spectrum_ped2.txt
@@ -254,6 +245,54 @@ as Fig. 7, and so on).
 | Fig. 2 (`F7_multiscale_arms`) | `figures/figs_main.py` | — (same per-seed values as `results/arms_paired.txt`) |
 | Fig. 8 (`F9_effect_vs_noise`) | `figures/figs_main.py` | — (the noise band is `results/arms_paired.txt`) |
 | `tab:checklist` | `checklist/reporting_checklist.md` | — (no numbers) |
+| Table `tab:decimate` (§5.3 arm) | `architecture/src_sgl/mamba_vad_dual_model.py`, `architecture/src_sgl/xd_train_sgl.py` | `results/decimation_arm.txt` (recomputed by `resolution/decimation_arm.py`) |
+| `tab:mechanisms`, bottom block (n=4 re-measurement) | `architecture/src_sgl/wave_resonator.py`, `architecture/src_sgl/wave_tv.py` | `results/mechanism_rerun.txt` (recomputed by `complementarity/mechanism_rerun.py`) |
+
+### 5b. The arms and mechanisms (GPU)
+
+`architecture/` holds two harnesses. They are **not** interchangeable and were
+**not** comparable: `src/` carries the reference backbone and the wave-field
+operator, `src_sgl/` carries the multi-scale branches and the other three
+mechanisms. Neither contains the other's branch, which is the structural reason
+the wave-field rows of Table 7 cannot be re-measured on the same footing as the
+rest — the paper states this in its limitations rather than papering over it.
+
+Each harness imports its modules top-level, so **run from inside its own
+directory**, exactly as in the original working copies:
+
+```bash
+cd architecture/src_sgl
+# the default arm (Table tab:arms) and the decimation arm (§5.3)
+python xd_train_sgl.py --multi-scale --multi-scale-factors 1,8,16 ...
+python xd_train_sgl.py --multi-scale --ms-pool-mode decimate ...
+# mechanisms (b) and (c), the two re-measured at n=4
+python xd_train_sgl.py --multi-scale --use-wrb --wrb-where fusion ...
+python xd_train_sgl.py --multi-scale --wave-loss 2.5 ...
+```
+
+`--ms-pool-mode decimate` holds the branch factors at 1,8,16 and replaces
+`F.avg_pool1d(kernel=f, stride=f)` with a pick of every *f*-th frame, so stride,
+output sampling rate, output length and all weights match the default arm. It is
+worth being precise about what that does **not** establish: `avg_pool1d` with
+`kernel == stride` is the standard **anti-aliased** downsample, so its boxcar is
+at once an average over *f* consecutive frames and a low-pass that suppresses
+fold-over above the new Nyquist rate. Dropping it removes the averaging **and**
+admits aliasing. The contrast therefore attributes the difference to the pooling
+**kernel**, and the 64% figure in §5.3 is a ratio of two measured differences,
+not an additive decomposition. Separating mixing from anti-aliasing would need a
+windowed-sinc resampler, which was not run.
+
+The `architecture/list/*.csv` paths are **relative** (`../../../dataset/...`) and
+resolve against the *current working directory*, not against the CSV. Lay the
+repository out so that `architecture/list/` sits three levels above your feature
+root, or regenerate the lists.
+
+Beyond `requirements.txt` you need `mamba_ssm` (2.2.4 on the machine these were
+measured on; the official kernels are CUDA-only) and the CLIP ViT-B/16
+checkpoint, which `clip.load` downloads on first use. Measured on one RTX 2080
+Ti (11 GB), batch 64, one epoch: about 290 s per run. `--save-min-ap 0.999`
+writes no checkpoint, which is how these tables were produced — they were read
+from logs, not from weights.
 
 `figures/figs_ped2.py` renders two further Ped2 diagnostics (the two-view
 spectrum and the injection calibration) that the paper does not print; it is

@@ -13,6 +13,21 @@ matplotlib
 torch
 torchvision
 Pillow           # imported as PIL
-clip             # OpenAI CLIP -- pip install git+https://github.com/openai/CLIP.git
-                 # (PyPI's `clip` is a different package)
 scikit-learn     # complementarity/ only
+
+# --- architecture/ only (see README 5b) -----------------------------------
+# NOT pip-installable from PyPI for this repository.  architecture/*/clip/ is a
+# vendored and MODIFIED copy of OpenAI's CLIP (architecture/CLIP-LICENSE, MIT):
+# encode_text() takes a pre-tokenised tensor here rather than tokenising
+# internally, and clip.py uses pkg_resources.packaging.  Substituting
+# `pip install git+https://github.com/openai/CLIP.git` would therefore NOT be a
+# drop-in replacement.  The measurement scripts above do not need it -- they read
+# pre-extracted features.
+#
+# mamba_ssm       2.2.4 on the machine these were measured on. Not vendored.
+#                 The official kernels are CUDA-only, so a CPU-only machine can
+#                 run the measurement code but not the arms.
+# mamba-ssm        (the PyPI name for the same project)
+#
+# A CUDA build of mamba_ssm needs nvcc; if `pip install` has no wheel for your
+# torch, follow that project's own build instructions rather than guessing.
