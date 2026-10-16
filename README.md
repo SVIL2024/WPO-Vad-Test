@@ -12,9 +12,14 @@ The paper asks two questions and this repository is the instrument for both:
 2. **Could the benchmark have resolved the difference anyway?** How many
    random seeds does a claimed gain of δ AP points actually require?
 
-Everything below is measurement code. There is no new detector here, and
-nothing in this repository needs a GPU to reproduce the premise results —
-they run on frozen, pre-extracted CLIP features.
+There is no new detector here. The premise and resolution halves are
+measurement code and run on frozen, pre-extracted CLIP features with no GPU.
+Two directories are training-side rather than measurement-side and are the
+only things here that ever touched a GPU: `logs/`, the raw per-seed training
+logs behind two of the tables, and `batch_rev.sh`, the driver that produced
+them. They are shipped so that the numbers in those tables can be recomputed
+from logs rather than trusted; re-running the batch needs a GPU and the
+architecture code, which is not in this repository (see §2).
 
 ---
 
@@ -68,6 +73,19 @@ that is not a centred average — a windowed-sinc resampler — which was not ru
 
 ## 2. What is *not* in here
 
+* **The architecture's own training code.** The multi-scale arms, the four
+  oscillatory mechanisms and the decimation arm of Section 5.3 were produced by a
+  training tree that is **not** part of this release. What is shipped instead is
+  the evidence: `logs/` holds the 43 per-seed training logs those arms produced,
+  `batch_rev.sh` holds every run's exact command line, and
+  `resolution/decimation_arm.py` recomputes the tables from those logs and exits
+  non-zero if a printed cell disagrees. So the numbers can be checked, but the
+  model that produced them cannot be re-trained from this repository alone. We
+  prefer that to implying otherwise: a reviewer who wants the training code
+  should ask for it rather than find a partial copy that does not run.
+* **The third-party CLIP package.** `src_sgl/clip/` in our training tree is a
+  vendored copy of OpenAI's CLIP implementation. On the same principle as the
+  VadCLIP entry below — reference, do not redistribute — it is not shipped here.
 * **The VadCLIP reference pipeline.** It is a third-party codebase with its own
   licence; we reference it, we do not redistribute it. Two things here read it:
   `resolution/five_seed_audit.py` reads *training logs* from a run of that
@@ -245,7 +263,7 @@ All five figure scripts write **vector PDF** — their internal `save()` helpers
 rewrite the extension, so the `.png`-looking call sites still produce
 `F*.pdf`, which is what the manuscript includes.
 
-## 6. Read this before you cite `results/shuffle.txt`
+## 6. Read this before you cite `results/shuffle_ped2.txt`
 
 There are two shuffle implementations, and only one is correct.
 
