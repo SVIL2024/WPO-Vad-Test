@@ -1,0 +1,48 @@
+﻿==============================================================================
+MECHANISM RE-MEASUREMENT AT n=4  (one epoch, batch 64)
+logs: D:\paper\2026\wpoClipVad\release\logs
+==============================================================================
+
+control = the default (1,8,16) arm at the same four seeds, from the
+eight-seed arm run; arm - control is a same-seed paired difference.
+
+  control AP: 42:0.8082 234:0.8172 555:0.7755 789:0.7445
+
+------------------------------------------------------------------------------
+TABLE 7, bottom block
+------------------------------------------------------------------------------
+  row                        delta       sd       t        p  p(Holm)   n
+  wave resonator bank      +0.0051   0.0281    0.36   0.7415   0.7804   4
+                         seeds 42 234 555 789
+
+  PDE residual             +0.0047   0.0094    1.00   0.3902   0.7804   4
+                         seeds 42 234 555 789
+
+------------------------------------------------------------------------------
+SCREEN VALUE (n=1) BESIDE THE MEASUREMENT (n=4)
+------------------------------------------------------------------------------
+  wave resonator bank    screen -0.0317  ->  measured +0.0051 +/- 0.0281   (+0.0368 AP)
+  PDE residual           screen +0.0000  ->  measured +0.0047 +/- 0.0094   (+0.0047 AP)
+
+  The (b) row does not keep its sign.  The two values are reported side
+  by side rather than one replacing the other: replacing it would imply
+  the screen was wrong when it was run, when what changed is the seed
+  count.  That gap is an instance of the paper's own thesis.
+
+------------------------------------------------------------------------------
+SIZE AGAINST THE TWO YARDSTICKS
+------------------------------------------------------------------------------
+  wave resonator bank    |delta|=0.0051 = 0.15 sigma (published 0.0345), 0.38 sigma (converged 0.0133)
+  PDE residual           |delta|=0.0047 = 0.14 sigma (published 0.0345), 0.35 sigma (converged 0.0133)
+
+==============================================================================
+PASS  every value quoted in the paper was reproduced from the logs.
+==============================================================================
+
+NOT measured here, by design:
+  * (d) SSM omega != 0 vs omega = 0, the one positive-direction row of
+    Table 7, remains at its original single seed.  It needs batch 16
+    (its state tensor is about 12x mamba2's) and was not re-run.
+  * (a) the three wave-field rows cannot be re-measured at any seed count:
+    the wave-field module and the multi-scale branches do not coexist in
+    one source tree, so the two families of results share no harness.

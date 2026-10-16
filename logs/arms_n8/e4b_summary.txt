@@ -1,0 +1,48 @@
+[run] e4b_default_e1_s42  2026-10-16 07:34:03
+[SUMMARY] tag=e4b_default_e1_s42 arm=default budget=e1 seed=42 bestAP=0.8082 auc=0.9395 secs=284 rc=0
+[run] e4b_fine_e1_s42  2026-10-16 07:38:47
+[SUMMARY] tag=e4b_fine_e1_s42 arm=fine budget=e1 seed=42 bestAP=0.7887 auc=0.9350 secs=334 rc=0
+[run] e4b_single_e1_s42  2026-10-16 07:44:21
+[SUMMARY] tag=e4b_single_e1_s42 arm=single budget=e1 seed=42 bestAP=0.7284 auc=0.9241 secs=192 rc=0
+[run] e4b_default_e1_s234  2026-10-16 07:47:33
+[SUMMARY] tag=e4b_default_e1_s234 arm=default budget=e1 seed=234 bestAP=0.8172 auc=0.9428 secs=285 rc=0
+[run] e4b_fine_e1_s234  2026-10-16 07:52:18
+[SUMMARY] tag=e4b_fine_e1_s234 arm=fine budget=e1 seed=234 bestAP=0.7799 auc=0.9354 secs=334 rc=0
+[run] e4b_single_e1_s234  2026-10-16 07:57:52
+[SUMMARY] tag=e4b_single_e1_s234 arm=single budget=e1 seed=234 bestAP=0.7437 auc=0.9217 secs=191 rc=0
+[run] e4b_default_e1_s555  2026-10-16 08:01:03
+[SUMMARY] tag=e4b_default_e1_s555 arm=default budget=e1 seed=555 bestAP=0.7755 auc=0.9324 secs=285 rc=0
+[run] e4b_fine_e1_s555  2026-10-16 08:05:48
+[SUMMARY] tag=e4b_fine_e1_s555 arm=fine budget=e1 seed=555 bestAP=0.7882 auc=0.9355 secs=333 rc=0
+[run] e4b_single_e1_s555  2026-10-16 08:11:21
+[SUMMARY] tag=e4b_single_e1_s555 arm=single budget=e1 seed=555 bestAP=0.7131 auc=0.9162 secs=193 rc=0
+[run] e4b_default_e1_s789  2026-10-16 08:14:34
+[SUMMARY] tag=e4b_default_e1_s789 arm=default budget=e1 seed=789 bestAP=0.7445 auc=0.9278 secs=284 rc=0
+[run] e4b_fine_e1_s789  2026-10-16 08:19:18
+[SUMMARY] tag=e4b_fine_e1_s789 arm=fine budget=e1 seed=789 bestAP=0.7238 auc=0.9266 secs=335 rc=0
+[run] e4b_single_e1_s789  2026-10-16 08:24:53
+[SUMMARY] tag=e4b_single_e1_s789 arm=single budget=e1 seed=789 bestAP=0.7177 auc=0.9181 secs=191 rc=0
+[run] e4b_default_e1_s1234  2026-10-16 08:28:04
+[SUMMARY] tag=e4b_default_e1_s1234 arm=default budget=e1 seed=1234 bestAP=0.7927 auc=0.9365 secs=286 rc=0
+[run] e4b_fine_e1_s1234  2026-10-16 08:32:50
+[SUMMARY] tag=e4b_fine_e1_s1234 arm=fine budget=e1 seed=1234 bestAP=0.7389 auc=0.9286 secs=335 rc=0
+[run] e4b_single_e1_s1234  2026-10-16 08:38:25
+[SUMMARY] tag=e4b_single_e1_s1234 arm=single budget=e1 seed=1234 bestAP=0.7107 auc=0.9176 secs=190 rc=0
+[run] e4b_default_e1_s2024  2026-10-16 08:41:35
+[SUMMARY] tag=e4b_default_e1_s2024 arm=default budget=e1 seed=2024 bestAP=0.8084 auc=0.9397 secs=285 rc=0
+[run] e4b_fine_e1_s2024  2026-10-16 08:46:20
+[SUMMARY] tag=e4b_fine_e1_s2024 arm=fine budget=e1 seed=2024 bestAP=0.7633 auc=0.9332 secs=332 rc=0
+[run] e4b_single_e1_s2024  2026-10-16 08:51:52
+[SUMMARY] tag=e4b_single_e1_s2024 arm=single budget=e1 seed=2024 bestAP=0.7351 auc=0.9201 secs=191 rc=0
+[run] e4b_default_e1_s3131  2026-10-16 08:55:03
+[SUMMARY] tag=e4b_default_e1_s3131 arm=default budget=e1 seed=3131 bestAP=0.7997 auc=0.9355 secs=285 rc=0
+[run] e4b_fine_e1_s3131  2026-10-16 08:59:48
+[SUMMARY] tag=e4b_fine_e1_s3131 arm=fine budget=e1 seed=3131 bestAP=0.7862 auc=0.9320 secs=334 rc=0
+[run] e4b_single_e1_s3131  2026-10-16 09:05:22
+[SUMMARY] tag=e4b_single_e1_s3131 arm=single budget=e1 seed=3131 bestAP=0.7175 auc=0.9193 secs=191 rc=0
+[run] e4b_default_e1_s999999  2026-10-16 09:08:33
+[SUMMARY] tag=e4b_default_e1_s999999 arm=default budget=e1 seed=999999 bestAP=0.8227 auc=0.9418 secs=284 rc=0
+[run] e4b_fine_e1_s999999  2026-10-16 09:13:17
+[SUMMARY] tag=e4b_fine_e1_s999999 arm=fine budget=e1 seed=999999 bestAP=0.7949 auc=0.9367 secs=333 rc=0
+[run] e4b_single_e1_s999999  2026-10-16 09:18:50
+[SUMMARY] tag=e4b_single_e1_s999999 arm=single budget=e1 seed=999999 bestAP=0.6969 auc=0.9179 secs=192 rc=0

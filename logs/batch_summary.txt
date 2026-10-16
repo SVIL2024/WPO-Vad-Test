@@ -1,0 +1,34 @@
+[run] p0_decim_s42  2026-10-16 14:09:49
+[SUMMARY] tag=p0_decim_s42 bestAP=0.7794 auc=0.9302 secs=290 rc=0
+[run] p1_decim_s42  2026-10-16 14:14:39
+[SUMMARY] tag=p1_decim_s42 bestAP=0.7775 auc=0.9303 secs=290 rc=0
+[run] p1_decim_s234  2026-10-16 14:19:29
+[SUMMARY] tag=p1_decim_s234 bestAP=0.7926 auc=0.9332 secs=289 rc=0
+[run] p1_decim_s555  2026-10-16 14:24:18
+[SUMMARY] tag=p1_decim_s555 bestAP=0.7776 auc=0.9305 secs=288 rc=0
+[run] p1_decim_s789  2026-10-16 14:29:06
+[SUMMARY] tag=p1_decim_s789 bestAP=0.7509 auc=0.9258 secs=289 rc=0
+[run] p1_decim_s1234  2026-10-16 14:33:55
+[SUMMARY] tag=p1_decim_s1234 bestAP=0.7663 auc=0.9282 secs=289 rc=0
+[run] p1_decim_s2024  2026-10-16 14:38:44
+[SUMMARY] tag=p1_decim_s2024 bestAP=0.7850 auc=0.9317 secs=290 rc=0
+[run] p1_decim_s3131  2026-10-16 14:43:34
+[SUMMARY] tag=p1_decim_s3131 bestAP=0.7906 auc=0.9312 secs=288 rc=0
+[run] p1_decim_s999999  2026-10-16 14:48:22
+[SUMMARY] tag=p1_decim_s999999 bestAP=0.7980 auc=0.9338 secs=288 rc=0
+[run] p2_wrb_s42  2026-10-16 14:53:10
+[SUMMARY] tag=p2_wrb_s42 bestAP=0.8054 auc=0.9388 secs=297 rc=0
+[run] p2_pde_s42  2026-10-16 14:58:07
+[SUMMARY] tag=p2_pde_s42 bestAP=0.8004 auc=0.9365 secs=290 rc=0
+[run] p2_wrb_s234  2026-10-16 15:02:57
+[SUMMARY] tag=p2_wrb_s234 bestAP=0.7907 auc=0.9351 secs=297 rc=0
+[run] p2_pde_s234  2026-10-16 15:07:54
+[SUMMARY] tag=p2_pde_s234 bestAP=0.8267 auc=0.9449 secs=290 rc=0
+[run] p2_wrb_s555  2026-10-16 15:12:44
+[SUMMARY] tag=p2_wrb_s555 bestAP=0.7841 auc=0.9336 secs=298 rc=0
+[run] p2_pde_s555  2026-10-16 15:17:42
+[SUMMARY] tag=p2_pde_s555 bestAP=0.7788 auc=0.9325 secs=289 rc=0
+[run] p2_wrb_s789  2026-10-16 15:22:31
+[SUMMARY] tag=p2_wrb_s789 bestAP=0.7855 auc=0.9350 secs=298 rc=0
+[run] p2_pde_s789  2026-10-16 15:27:29
+[SUMMARY] tag=p2_pde_s789 bestAP=0.7583 auc=0.9289 secs=290 rc=0

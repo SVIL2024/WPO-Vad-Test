@@ -1,0 +1,8 @@
+[Log] output also written to log/train_xd_sgl_mvmamba2l2ds8do0.5_fw1.0_pw4.0_wl2.5a0.25_20261016_150758.log
+[RunCommand] python xd_train_sgl.py --seed 234 --batch-size 64 --lr 1e-05 --mamba-layers 2 --d-state 8 --expand 2 --mlp-scale 4 --mamba-version mamba2 --multi-scale True --multi-scale-factors '1,8,16' --bidirectional True --use-wpo False --wpo-lr-scale 100.0 --wpo-c-max 20.0 --wpo-multiscale False --wpo-band-c '0.5,3.0' --wpo-band-mode learnable --adaptive-fusion False --wpo-parallel False --wpo-adaptive-params False --wpo-motion-cond False --ema False --ema-decay 0.999 --wave-ssm False --wave-omega-init 'spread' --future-weight 1.0 --aug False --eval-steps 0 --class-proto False --cp-weight 0.1 --proto-weight 4.0 --use-wrb False --wrb-kind resonator --wrb-periods '64,16' --wrb-q '4,4' --wrb-groups 1 --wrb-where fusion --wrb-adaptive False --wrb-motion-cond False --wave-tv False --wave-tv-where pre --wave-tv-periods '' --wave-tv-q '' --wave-tv-size 33 --wave-tv-gain 0.1 --wave-tv-k 5 --wave-tv-pmin 4.0 --wave-loss 2.5 --wave-alpha 0.25 --wave-ent 0.0 --dropout 0.5 --weight-decay 0.001 --label-smooth 0.0 --early-stop-patience 2 --early-stop-min-delta 0.0
+[Config] SingleMambaVAD XD, mamba_layers=2, d_state=8, mlp_scale=4, mamba_version=mamba2, multi_scale=scales=1,8,16(pool), bidirectional=True, use_wpo=False
+  AUC: 0.9449 | AP: 0.8267
+[NoSave] AP 0.8267 < --save-min-ap 0.9990 - checkpoint not written (best so far 0.8267)
+[Epoch 1/1 | 225s] Cls:0.3088 Proto:0.3814 Future:0.6445 | AUC:0.9449 AP:0.8267 | BEST AP:0.8267(e1) | lr:0.00e+00 | WPO off
+[NoSave] no model written: best AP 0.8267 < --save-min-ap 0.9990
+Total training time: 244s (4.1min)

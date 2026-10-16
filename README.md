@@ -31,6 +31,40 @@ they run on frozen, pre-extracted CLIP features.
 | `figures/` | The plotting scripts: `figs_main.py` (Figs. 1, 2, 3, 8), `figs_backbone.py` (Figs. 4, 5), `figs_xd_shuffle.py` (Fig. 6), `figs_avenue.py` (Fig. 7), and `figs_ped2.py`, which renders two Ped2 diagnostics the paper does not print. They emit **vector PDF** (Okabe–Ito palette, no in-figure titles) so the figures are print-ready. |
 | `results/` | The captured output of every script above — the auditable evidence. |
 | `checklist/` | The ten-item minimum reporting standard from the paper, as a standalone markdown file you can copy into your own paper. |
+| `seedstats.py` | The single source of truth for the seed statistics and for parsing training logs: sample mean and sd, the paired *t* test, Holm–Bonferroni, and the log readers. Nothing below computes these itself, because the same quantity is quoted in more than one table and the failure mode we are guarding against is two tables computing it by different routes and drifting apart. Standard library only — no numpy, no scipy — so "no third-party code" stays true. |
+| `logs/` | The raw per-seed training logs behind two of the paper's tables, kept verbatim so the numbers can be recomputed rather than trusted: `arms_n8/` (the three multi-scale arms at eight seeds), `decimation_n8/` (the decimation arm that separates the pooling kernel from the branch factors), `mechanism_n4/` (the two mechanism rows re-measured at four seeds), and `batch_summary.txt` (one line per run). |
+| `batch_rev.sh` | The driver that produced `logs/decimation_n8/` and `logs/mechanism_n4/`, with the exact command line for every run. Resumable: a run whose log already carries a summary line is skipped, so an interrupted batch can be relaunched without paying for finished work. **Not needed to reproduce any table in this repository** — it is here so the logs in `logs/` are traceable, not so you can re-run a GPU batch. |
+
+Two of these are newer than the rest and cover the tables added in revision:
+
+| Script | Reproduces |
+|---|---|
+| `resolution/decimation_arm.py` | Table 12 (`tab:decimate`) and the lower block of Table 9 (`tab:paired`). Reads `logs/`, checks the alignment gate first — that the decimated arm reports the same factors and a different pooling mode, and nothing else — and **exits non-zero** unless every value the paper prints is reproduced. |
+| `complementarity/mechanism_rerun.py` | The bottom block of Table 7 (`tab:mechanisms`): the (b) wave resonator bank and the (c) PDE residual, re-measured as same-seed paired differences at four seeds. Prints the n=1 screen value beside the measurement rather than replacing it, and **exits non-zero** unless the paper's numbers come out. |
+
+Both need no configuration and no data beyond `logs/`:
+
+```bash
+python resolution/decimation_arm.py
+python complementarity/mechanism_rerun.py
+```
+
+### What `decimation_arm.py` does *not* establish
+
+The decimated arm keeps the branch factors at 1,8,16 and replaces
+`F.avg_pool1d(kernel=f, stride=f)` with a pick of every *f*-th frame, so the
+stride, the output sampling rate, the output length and all weights match the
+default arm. But `avg_pool1d` with `kernel == stride` is the standard
+**anti-aliased** downsample: its boxcar is at once an average over *f*
+consecutive frames *and* a low-pass that suppresses fold-over above the new
+Nyquist rate. Dropping it removes the averaging **and** admits aliasing.
+
+The contrast therefore attributes the difference to **the pooling kernel**, and
+the 64% figure in Section 5.3 is a ratio of two measured differences, not an
+additive decomposition. It is consistent with the reading that the coarse branch
+benefits from smoothing across frames; it does **not** isolate that reading from
+anti-aliasing. Separating the two needs a third arm with an anti-aliasing filter
+that is not a centred average — a windowed-sinc resampler — which was not run.
 
 ## 2. What is *not* in here
 
