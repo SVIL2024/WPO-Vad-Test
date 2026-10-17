@@ -1,0 +1,24 @@
+[InitCkpt] /root/autodl-tmp/logs/a0_s555.pt
+[InitCkpt] 8 key(s) absent from the checkpoint (kept at fresh init), 0 unused
+[InitCkpt]   e.g. ['wave_gain', 'wave_field.mix.weight', 'wave_field.gnorm.weight', 'wave_field.gnorm.bias']
+[Optim] 2 param groups: 9489922 base @1e-05, 132291 wave @1e-05
+[Wave] fusion=feature
+epoch:  1 | step:  4800 | loss1:  0.10854102097647755 | loss2:  0.36889690729348285 | loss3:  0.44951221346855164
+epoch:  1 | step:  9600 | loss1:  0.10411457895048407 | loss2:  0.3633804389380461 | loss3:  0.4616217017173767
+epoch:  1 | step:  14400 | loss1:  0.10545416679068477 | loss2:  0.3568715830292322 | loss3:  0.4407329559326172
+epoch:  1 | step:  19200 | loss1:  0.10169979280164075 | loss2:  0.35523889216275706 | loss3:  0.43713563680648804
+epoch:  1 | step:  24000 | loss1:  0.09915102494662588 | loss2:  0.3492873941964291 | loss3:  0.46048685908317566
+epoch:  1 | step:  28800 | loss1:  0.09740076871163433 | loss2:  0.3458010077212179 | loss3:  0.43588966131210327
+epoch:  1 | step:  33600 | loss1:  0.09534885520434198 | loss2:  0.34286383278809573 | loss3:  0.43653619289398193
+epoch:  1 | step:  38400 | loss1:  0.09339195642986035 | loss2:  0.3379871411351317 | loss3:  0.42862468957901
+[WaveField] epoch 1: non-finite energy entries so far=0  gain=0.02016  |evidence|max=5.781  gain*|ev|=0.1165
+AUC1:  0.9403945513839966  AP1:  0.8130859518479492
+AUC2:  0.947817348369226  AP2: 0.84481698761219
+mAP@0.1 =37.23%
+mAP@0.2 =29.52%
+mAP@0.3 =24.03%
+mAP@0.4 =19.50%
+mAP@0.5 =14.59%
+average MAP: 24.97
+[NoSave] AP 0.8448 < --save-min-ap 0.9990 - checkpoint not written (best so far 0.8448)
+[NoSave] no model written: best AP 0.8448 < --save-min-ap 0.9990

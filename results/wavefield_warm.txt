@@ -1,0 +1,49 @@
+﻿==============================================================================
+PART B -- the four warm-start rows, paired against a per-seed A0
+one epoch on the wave branch, batch 64, A0 trained to ep4
+==============================================================================
+
+  A0 (per seed): mean 0.8190  sd 0.0398   42:0.7597 234:0.8421 555:0.8414 789:0.8328
+
+  setup self-check (freeze must be True only on the frozen rows, and every
+  warm row must carry an [InitCkpt] line):
+  ok   all 16 warm runs were set up as intended
+
+row                                    delta       sd       t        p published
+------------------------------------------------------------------------------
+evidence->logits1, joint             -0.0230   0.0189   -2.44   0.0927   -0.0656
+feature gate,     joint              -0.0253   0.0209   -2.41   0.0949   -0.0638
+evidence->logits1, frozen            -0.0000   0.0000   -1.00   0.3910   +0.0001
+feature gate,     frozen             +0.0001   0.0000    3.00   0.0577   +0.0010
+------------------------------------------------------------------------------
+
+  with Holm-Bonferroni over the 4 rows:
+    evidence->logits1, joint           p=0.0927 -> 0.2780  not significant
+    feature gate,     joint            p=0.0949 -> 0.2780  not significant
+    evidence->logits1, frozen          p=0.3910 -> 0.3910  not significant
+    feature gate,     frozen           p=0.0577 -> 0.2307  not significant
+
+  per-seed differences:
+    evidence->logits1, joint           -0.0402 -0.0240 +0.0035 -0.0313
+    feature gate,     joint            -0.0460 -0.0251 +0.0034 -0.0333
+    evidence->logits1, frozen          -0.0001 +0.0000 +0.0000 +0.0000
+    feature gate,     frozen           +0.0001 +0.0001 +0.0001 +0.0000
+
+VERDICT
+  evidence->logits1, joint: published -0.0656, measured -0.0230 -- the published figure is 2.9x
+  feature gate,     joint: published -0.0638, measured -0.0253 -- the published figure is 2.5x
+  evidence->logits1, frozen: published +0.0001, measured -0.0000
+  feature gate,     frozen: published +0.0010, measured +0.0001
+
+  The two joint rows are the ones the published table called the second and
+  third largest effects. Paired at four seeds they come back far smaller
+  and, where the pairing holds, not distinguishable from zero -- the same
+  pattern as the from-scratch row, where batch size turned out to be the
+  confound. Note this measurement ran at batch 64; the from-scratch
+  factorial showed batch size is exactly where the effect hides, so these
+  four rows should be read as a LOWER BOUND on the cost, not as a
+  measurement at the budget that shows it.
+
+  The two frozen rows were published as ~0.000 and measure as ~0.00, i.e.
+  a frozen trunk plus one epoch of the wave branch moves nothing. That is
+  the one part of the published table that reproduces.

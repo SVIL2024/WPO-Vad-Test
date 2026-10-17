@@ -1,0 +1,21 @@
+[Optim] 2 param groups: 9489922 base @1e-05, 132291 wave @1e-05
+[Wave] fusion=feature
+epoch:  1 | step:  4800 | loss1:  0.4646581960659401 | loss2:  1.7416859818439858 | loss3:  0.9561370611190796
+epoch:  1 | step:  9600 | loss1:  0.37597921461162 | loss2:  1.5138055617266362 | loss3:  0.7117395401000977
+epoch:  1 | step:  14400 | loss1:  0.3288825265323089 | loss2:  1.3215736063900372 | loss3:  0.6599406003952026
+epoch:  1 | step:  19200 | loss1:  0.29430191945377276 | loss2:  1.1843288846276885 | loss3:  0.6165823936462402
+epoch:  1 | step:  24000 | loss1:  0.2712606268515625 | loss2:  1.0741472486480774 | loss3:  0.5366379618644714
+epoch:  1 | step:  28800 | loss1:  0.2542832598486216 | loss2:  0.9880729520637728 | loss3:  0.5291105508804321
+epoch:  1 | step:  33600 | loss1:  0.23877104076734634 | loss2:  0.9217759334293866 | loss3:  0.5381223559379578
+epoch:  1 | step:  38400 | loss1:  0.22656661515446969 | loss2:  0.8660382780796869 | loss3:  0.5256578326225281
+[WaveField] epoch 1: non-finite energy entries so far=0  gain=0.09974  |evidence|max=7.138  gain*|ev|=0.7119
+AUC1:  0.9335257813366866  AP1:  0.7879373893596291
+AUC2:  0.9365210093771335  AP2: 0.8152974897542307
+mAP@0.1 =32.86%
+mAP@0.2 =27.88%
+mAP@0.3 =22.04%
+mAP@0.4 =16.33%
+mAP@0.5 =12.33%
+average MAP: 22.29
+[NoSave] AP 0.8153 < --save-min-ap 0.9990 - checkpoint not written (best so far 0.8153)
+[NoSave] no model written: best AP 0.8153 < --save-min-ap 0.9990

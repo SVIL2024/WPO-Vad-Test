@@ -1,0 +1,40 @@
+﻿==============================================================================
+PART A -- which configuration reproduces the published -0.0754?
+paired against its own no-wave control at the same batch size
+==============================================================================
+
+  control ctrl64   mean 0.8177  sd 0.0388   0.7597 0.8368 0.8414 0.8328
+  control ctrl96   mean 0.8210  sd 0.0312   0.7753 0.8458 0.8303 0.8325
+
+cell                                             delta       sd       t        p
+------------------------------------------------------------------------------
+logits, bs 64, gain 0.10  <- the first re-measurement   -0.0100   0.0308   -0.65   0.5610
+feature, bs 64, gain 0.10                      -0.0062   0.0278   -0.45   0.6863
+logits, bs 64, gain 0.02  <- the artifact gain   -0.0087   0.0247   -0.70   0.5335
+logits, bs 96, gain 0.10  <- the harness default bs   -0.0277   0.0085   -6.51   0.0074
+feature, bs 96, gain 0.10                      -0.0230   0.0106   -4.34   0.0225
+------------------------------------------------------------------------------
+  published single-seed row: -0.0754  (2.19 sigma at sd 0.0345)
+
+CLOSEST CELL TO THE PUBLISHED VALUE
+  logits, bs 96, gain 0.10  <- the harness default bs: -0.0277  -- the published row is 2.7x that
+
+BATCH SIZE, which was confound 1
+  bs 64   mean delta over 3 cell(s): -0.0083
+  bs 96   mean delta over 2 cell(s): -0.0254
+  batch size shifts the apparent cost by -0.0171 AP, but neither half
+  reaches the published -0.0754.
+
+VERDICT
+  No cell in this factorial reproduces the published -0.0754. The largest
+  magnitude measured is -0.0277, about 37% of it. Batch size, fusion and
+  gain therefore do not account for the published figure, and no surviving
+  artifact carries it either. The row is not reproduced under any of the six
+  configurations tested here.
+
+  Seed-level detail, because one seed carries a lot of the mean:
+    logits, bs 64, gain 0.10  <- the first re-measurement +0.0361 -0.0262 -0.0247 -0.0253   (1 of 4 above control)
+    feature, bs 64, gain 0.10                    +0.0355 -0.0215 -0.0179 -0.0209   (1 of 4 above control)
+    logits, bs 64, gain 0.02  <- the artifact gain +0.0281 -0.0231 -0.0169 -0.0227   (1 of 4 above control)
+    logits, bs 96, gain 0.10  <- the harness default bs -0.0243 -0.0389 -0.0188 -0.0288   (0 of 4 above control)
+    feature, bs 96, gain 0.10                    -0.0143 -0.0367 -0.0150 -0.0260   (0 of 4 above control)
