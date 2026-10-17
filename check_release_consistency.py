@@ -37,6 +37,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SKIP_PREFIXES = ('architecture/',)
 LOG_PREFIXES = ('logs/',)
 
+# This file necessarily contains every banned phrase, as data in BANNED below.
+# Once it is committed, `git ls-files` lists it and the check starts reading its
+# own table of prohibited strings as a live claim -- which is how the first
+# version of this script passed in the working tree (where it was untracked and
+# therefore invisible to the scan) and failed the moment it was pushed and cloned
+# fresh. The working tree hid it; the clone caught it.
+SELF = 'check_release_consistency.py'
+
 # (substring, why it is wrong now). Each is a sentence that was true once.
 BANNED = [
     ('cannot be re-measured',
@@ -85,6 +93,8 @@ def text_files():
     keep = []
     for n in names:
         if n.startswith(SKIP_PREFIXES):
+            continue
+        if n.replace('\\', '/').lstrip('./') == SELF:
             continue
         if not re.search(r'\.(md|py|txt|sh)$', n):
             continue
