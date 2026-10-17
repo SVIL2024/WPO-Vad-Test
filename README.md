@@ -41,6 +41,7 @@ re-read.
 | `logs/` | The raw per-seed training logs behind the paper's tables, kept verbatim so the numbers can be recomputed rather than trusted: `arms_n8/` (the three multi-scale arms at eight seeds), `decimation_n8/` (the decimation arm that separates the pooling kernel from the branch factors), `mechanism_n4/` (the two mechanism rows re-measured at four seeds), `wavefield_n4/` (the wave field re-measured at four seeds at one batch size), `wavefield_factorial/` (the same operator over batch size, fusion and gain), `wavefield_warm/` (the four warm-start rows against a per-seed `A_0`), and `batch_summary.txt` (one line per run). |
 | `wf_batch.sh` | The driver that produced `logs/wavefield_n4/`, with the exact command line for every run. Resumable. **Not needed to reproduce any table in this repository** — it is here so the logs in `logs/` are traceable, not so you can re-run a GPU batch. |
 | `wf2_batch.sh` | The driver that produced `logs/wavefield_factorial/` and `logs/wavefield_warm/`. Part A is the factorial; Part B is gated behind `WITH_WARM=1` and trains a converged `A_0` per seed, because only one seed's `A_0` survived on disk. Same caveat as above: shipped for traceability. |
+| `check_release_consistency.py` | **Run this first.** Exits non-zero if anything in this repository still claims something the manuscript has stopped saying, or if a table the manuscript quotes has no shipped report and no shipped logs behind it. |
 
 Three of these are newer than the rest and cover the tables added in revision:
 
@@ -224,6 +225,10 @@ python complementarity/wavefield_factorial.py logs/wavefield_factorial
                                            # -> results/wavefield_factorial.txt
 python complementarity/wavefield_warm.py    logs/wavefield_warm
                                            # -> results/wavefield_warm.txt
+
+# last, and it is the one that has caught the most: does anything in this
+# repository still claim something the manuscript has stopped saying?
+python check_release_consistency.py
 ```
 
 `complementarity/residual_test.py` imports the residual machinery from

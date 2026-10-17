@@ -163,9 +163,15 @@ def main():
     w("  * (d) SSM omega != 0 vs omega = 0, the one positive-direction row of")
     w("    Table 7, remains at its original single seed.  It needs batch 16")
     w("    (its state tensor is about 12x mamba2's) and was not re-run.")
-    w("  * (a) the three wave-field rows cannot be re-measured at any seed count:")
-    w("    the wave-field module and the multi-scale branches do not coexist in")
-    w("    one source tree, so the two families of results share no harness.")
+    w("  * (a) the wave-field rows are NOT measured here, but they ARE measured:")
+    w("    see complementarity/wavefield_rerun.py for the single-cell row,")
+    w("    wavefield_factorial.py for the batch-size / fusion / gain factorial, and")
+    w("    wavefield_warm.py for the four warm-start rows.  What is true is that")
+    w("    they are not comparable to the rows above: the wave-field module and the")
+    w("    multi-scale branches do not coexist in one source tree, so each family is")
+    w("    measured against its own control in its own harness.")
+    w("    An earlier version of this file said they 'cannot be re-measured at")
+    w("    any seed count'; that was false and contradicted the paper.")
 
     text = "\n".join(out)
     try:

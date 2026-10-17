@@ -199,7 +199,9 @@ def main():
     if abs(dm - PUB_DELTA) < 0.01:
         w('  NOTE: the measurement agrees with the published row. If that is')
         w('        real, the earlier claim that this row cannot be re-measured is')
-        w('        wrong twice over. Check the fusion mode and batch size first.')
+        w('        wrong twice over. Both fusion mode and batch size have since been')
+        w('        swept in wavefield_factorial.py without recovering it, so the next')
+        w('        thing to look at is the checkpoint itself, not the run flags.')
     else:
         w('  READING')
         w('    The DIRECTION is consistent -- %d of %d seeds put the wave field'
