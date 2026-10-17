@@ -1,0 +1,36 @@
+UCF-Crime premise test -- the band defined in seconds, not frames
+==============================================================================
+
+why: XD features are at the native 15 fps (a 240 s window holds 3600
+rows); UCF features are one sampled clip per video at ~30 fps. The
+paper's mid band is bins 3-5 of a 64-point transform = 10-21 frames =
+0.67-1.40 s. On UCF those same bins cover 0.33-0.70 s, so the two
+datasets are compared at different periods unless the bins move.
+
+scope: UCF features are pooled 512-d vectors only, with no patch
+tokens, so this is the GLOBAL view. The paper's tab:cluster reports
+the Ped2 global view as the one whose 95% CI covers zero, so a null
+here is consistent with that and would not refute the premise.
+
+reading                            WIN       bins  period(s)        z   perm p  n_vids
+period-matched @30fps              128    3-7     0.61-1.42   -0.814   0.4240     122
+period-matched @25fps              107    3-7     0.61-1.43   -1.234   0.2165     155
+frame-matched (10-21 UCF frames)    64    3-7     0.61-1.42   -2.154   0.0306     219
+
+per anomaly class, period-matched @30fps. Each class is compared
+against the same normal videos, with the video as the resampling
+unit.
+
+WIN      band (s)                    n_norm kept  n_anom kept
+128      0.61-1.42                            57           65   (of 150 / 140)
+
+class                     n_vids         z   perm p
+Arrest                         5     0.302   0.7453
+Arson                          4    -2.682   0.0186
+Burglary                       7    -1.224   0.2050
+Explosion                     10     0.826   0.4120
+Shooting                       9     0.004   0.9968
+Shoplifting                    9    -0.218   0.8281
+Stealing                       4     0.419   0.6419
+
+classes with perm p < 0.05: 1 of 7  (Arson)
