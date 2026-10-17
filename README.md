@@ -38,28 +38,40 @@ re-read.
 | `checklist/` | The ten-item minimum reporting standard from the paper, as a standalone markdown file you can copy into your own paper. |
 | `architecture/` | The training code behind every arm and mechanism in the paper. **This is the only third-party code in the repository**: `architecture/*/clip/` is a vendored and modified copy of OpenAI's CLIP, MIT, under `architecture/CLIP-LICENSE`. Everything else in the repository is our own. |
 | `seedstats.py` | The single source of truth for the seed statistics and for parsing training logs: sample mean and sd, the paired *t* test, Holm–Bonferroni, and the log readers. Nothing below computes these itself, because the same quantity is quoted in more than one table and the failure mode we are guarding against is two tables computing it by different routes and drifting apart. Standard library only — no numpy, no scipy — so "no third-party code" stays true. |
-| `logs/` | The raw per-seed training logs behind two of the paper's tables, kept verbatim so the numbers can be recomputed rather than trusted: `arms_n8/` (the three multi-scale arms at eight seeds), `decimation_n8/` (the decimation arm that separates the pooling kernel from the branch factors), `mechanism_n4/` (the two mechanism rows re-measured at four seeds), `wavefield_n4/` (the wave field re-measured at four seeds), and `batch_summary.txt` (one line per run). |
+| `logs/` | The raw per-seed training logs behind the paper's tables, kept verbatim so the numbers can be recomputed rather than trusted: `arms_n8/` (the three multi-scale arms at eight seeds), `decimation_n8/` (the decimation arm that separates the pooling kernel from the branch factors), `mechanism_n4/` (the two mechanism rows re-measured at four seeds), `wavefield_n4/` (the wave field re-measured at four seeds at one batch size), `wavefield_factorial/` (the same operator over batch size, fusion and gain), `wavefield_warm/` (the four warm-start rows against a per-seed `A_0`), and `batch_summary.txt` (one line per run). |
 | `wf_batch.sh` | The driver that produced `logs/wavefield_n4/`, with the exact command line for every run. Resumable. **Not needed to reproduce any table in this repository** — it is here so the logs in `logs/` are traceable, not so you can re-run a GPU batch. |
+| `wf2_batch.sh` | The driver that produced `logs/wavefield_factorial/` and `logs/wavefield_warm/`. Part A is the factorial; Part B is gated behind `WITH_WARM=1` and trains a converged `A_0` per seed, because only one seed's `A_0` survived on disk. Same caveat as above: shipped for traceability. |
 
-Two of these are newer than the rest and cover the tables added in revision:
+Three of these are newer than the rest and cover the tables added in revision:
 
 | Script | Reproduces |
 |---|---|
 | `resolution/decimation_arm.py` | Table 12 (`tab:decimate`) and the lower block of Table 9 (`tab:paired`). Reads `logs/`, checks the alignment gate first — that the decimated arm reports the same factors and a different pooling mode, and nothing else — and **exits non-zero** unless every value the paper prints is reproduced. |
 | `complementarity/mechanism_rerun.py` | The bottom block of Table 7 (`tab:mechanisms`): the (b) wave resonator bank and the (c) PDE residual, re-measured as same-seed paired differences at four seeds. Prints the n=1 screen value beside the measurement rather than replacing it, and **exits non-zero** unless the paper's numbers come out. |
+| `complementarity/wavefield_factorial.py` | The (a) rows of Table 7 that come from `logs/wavefield_factorial/`: five cells over batch size, fusion wiring and field gain, each differenced against **its own** no-wave control at the same batch size. This is the script that resolved the batch-size confound behind the published −0.0754 row, and it prints the per-batch-size means and the shift between them, not just the cells. |
+| `complementarity/wavefield_warm.py` | The four warm-start (a) rows of Table 7, from `logs/wavefield_warm/`, paired against a per-seed `A_0`. It first checks that every run was set up as intended — `[Freeze] trunk frozen` present on exactly the frozen rows, `[InitCkpt]` present on all sixteen — and says so in its output, because a warm row that silently ran cold would be indistinguishable from a null. |
 
-Both need no configuration and no data beyond `logs/`:
+All four need no configuration and no data beyond `logs/`:
 
 ```bash
 python resolution/decimation_arm.py
 python complementarity/mechanism_rerun.py
+python complementarity/wavefield_factorial.py logs/wavefield_factorial
+python complementarity/wavefield_warm.py      logs/wavefield_warm
 ```
 
-Both reproduction scripts carry the caveat they are meant to be read with, in
+These reproduction scripts carry the caveat they are meant to be read with, in
 their output and in their docstrings: `decimation_arm.py` states that the
 contrast attributes the difference to the pooling **kernel** and does not
 isolate frame averaging from anti-aliasing, and `mechanism_rerun.py` states
-that a null is not equivalence. See §2b for what the kernels themselves are.
+that a null is not equivalence. The two wave-field scripts state a second one:
+the batch-96 rows are the only rows in Table 7 whose uncorrected `p` falls
+below 0.05, and Holm–Bonferroni over the ten re-measured rows takes them to 0.074
+and 0.203, so **no** row of that table is significant once the number of rows
+tested is accounted for. `wavefield_warm.py` also notes that its four rows ran
+at batch 64, which `wavefield_factorial.py` shows is where the effect is
+smallest, so they are a lower bound rather than a measurement at the budget that
+exposes it. See §2b for what the kernels themselves are.
 
 ## 2. What is *not* in here
 
@@ -71,9 +83,14 @@ that a null is not equivalence. See §2b for what the kernels themselves are.
   shipped rather than one because they share no imports — each imports its
   modules top-level, so each must be run from its own directory — and because
   they are not comparable to each other: `src/` has no multi-scale branch and
-  `src_sgl/` has no wave field, which is why the wave-field rows of
-  Table 7 cannot be re-measured on the same footing as the others. The paper says
-  so in its limitations.
+  `src_sgl/` has no wave field. That is why the wave-field rows of Table 7 are not
+  comparable to the other mechanism rows, and why they are re-measured against
+  their **own** no-wave controls inside `src/` instead of against the shared
+  control the other three use — mixing the harnesses to force one control would
+  have introduced a larger confound than the one being measured. An earlier
+  version of this file said those rows "cannot be re-measured"; that was wrong.
+  They are re-measured at four seeds over batch size, fusion and gain, and the
+  paper's limitations no longer claim otherwise.
 * **The reference VadCLIP pipeline** from which the multi-scale branches inherit.
   It is a third-party codebase with its own licence; we reference it, we do not
   redistribute it. Two things here read it:
@@ -200,6 +217,13 @@ python complementarity/mechanisms.py       # -> results/mechanisms.txt
 
 # every claim the paper makes about the reference implementation
 python protocol/r6_evidence.py             # -> results/r6_evidence.txt; exits 1 on a mismatch
+
+# the rows re-measured at n=4 for Table 7 (tab:mechanisms), bottom block
+python complementarity/mechanism_rerun.py   # -> results/mechanism_rerun.txt
+python complementarity/wavefield_factorial.py logs/wavefield_factorial
+                                           # -> results/wavefield_factorial.txt
+python complementarity/wavefield_warm.py    logs/wavefield_warm
+                                           # -> results/wavefield_warm.txt
 ```
 
 `complementarity/residual_test.py` imports the residual machinery from
@@ -247,16 +271,19 @@ as Fig. 7, and so on).
 | `tab:checklist` | `checklist/reporting_checklist.md` | — (no numbers) |
 | Table `tab:decimate` (§5.3 arm) | `architecture/src_sgl/mamba_vad_dual_model.py`, `architecture/src_sgl/xd_train_sgl.py` | `results/decimation_arm.txt` (recomputed by `resolution/decimation_arm.py`) |
 | `tab:mechanisms`, bottom block (n=4 re-measurement) | `architecture/src_sgl/wave_resonator.py`, `architecture/src_sgl/wave_tv.py` | `results/mechanism_rerun.txt` (recomputed by `complementarity/mechanism_rerun.py`) |
-| `tab:mechanisms`, (a) row (wave field, n=4) | `architecture/src/wave_field.py` | `results/wavefield_rerun.txt` (recomputed by `complementarity/wavefield_rerun.py`) |
+| `tab:mechanisms`, (a) row (wave field, n=4, one batch size) | `architecture/src/wave_field.py` | `results/wavefield_rerun.txt` (recomputed by `complementarity/wavefield_rerun.py`) |
+| `tab:mechanisms`, (a) rows over batch size, fusion and gain | `architecture/src/wave_field.py` | `results/wavefield_factorial.txt` (recomputed by `complementarity/wavefield_factorial.py` from `logs/wavefield_factorial/`) |
+| `tab:mechanisms`, (a) warm-start rows (frozen and joint, two fusions) | `architecture/src/wave_field.py` | `results/wavefield_warm.txt` (recomputed by `complementarity/wavefield_warm.py` from `logs/wavefield_warm/`) |
 
 ### 5b. The arms and mechanisms (GPU)
 
-`architecture/` holds two harnesses. They are **not** interchangeable and were
+`architecture/` holds two harnesses. They are **not** interchangeable and are
 **not** comparable: `src/` carries the reference backbone and the wave-field
 operator, `src_sgl/` carries the multi-scale branches and the other three
 mechanisms. Neither contains the other's branch, which is the structural reason
-the wave-field rows of Table 7 cannot be re-measured on the same footing as the
-rest — the paper states this in its limitations rather than papering over it.
+the wave-field rows of Table 7 are not comparable to the rest: they are measured
+within `src/` against their own controls at their own batch size, and the paper
+states the resulting limits in its limitations rather than papering over them.
 
 Each harness imports its modules top-level, so **run from inside its own
 directory**, exactly as in the original working copies:
